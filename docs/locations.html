@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Локации и серверы — TMAVPN Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="mobile-header">
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="mobile-title">Локации и серверы</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TMAVPN <span>docs</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Обзор</div>
+        <a href="index.html" class="nav-link">О платформе</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Админ-панель</div>
+        <a href="users.html" class="nav-link">Пользователи</a>
+        <a href="locations.html" class="nav-link active">Локации и серверы</a>
+        <a href="locations.html#locations" class="nav-link nav-link-sub">Локации</a>
+        <a href="locations.html#servers" class="nav-link nav-link-sub">Серверы</a>
+        <a href="locations.html#agent" class="nav-link nav-link-sub">VPN Agent</a>
+        <a href="locations.html#monitoring" class="nav-link nav-link-sub">Мониторинг</a>
+        <a href="locations.html#provisioning" class="nav-link nav-link-sub">Провижининг</a>
+        <a href="locations.html#balancing" class="nav-link nav-link-sub">Балансировка</a>
+        <a href="locations.html#add-server" class="nav-link nav-link-sub">Добавление сервера</a>
+        <a href="keys.html" class="nav-link">Ключи и подписки</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1 class="page-title">Локации и серверы</h1>
+      <p class="page-desc">Управление VPN-инфраструктурой: локации (страны), серверы, мониторинг, балансировка нагрузки, провижининг ключей.</p>
+
+      <h2 id="concept">Концепция</h2>
+      <p>Инфраструктура организована в два уровня:</p>
+      <ul>
+        <li><strong>Локация</strong> — географическая точка (страна/город). Например: Нидерланды, Германия, США.</li>
+        <li><strong>Сервер</strong> — конкретный VPS внутри локации с установленной 3x-ui панелью. В одной локации может быть несколько серверов для распределения нагрузки.</li>
+      </ul>
+      <p>При покупке подписки пользователь получает ключи на <strong>всех локациях</strong>. В каждой локации ключ создаётся на одном из серверов — на том, где меньше всего пользователей (автоматическая балансировка).</p>
+
+      <h2 id="locations">Локации</h2>
+
+      <h3>Данные локации</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Поле</th><th>Описание</th></tr></thead>
+          <tbody>
+            <tr><td><code>name</code></td><td>Название локации (отображается в Mini App и VPN-клиенте)</td></tr>
+            <tr><td><code>country</code></td><td>Страна</td></tr>
+            <tr><td><code>country_code</code></td><td>ISO код страны (NL, DE, US)</td></tr>
+            <tr><td><code>flag</code></td><td>Флаг страны</td></tr>
+            <tr><td><code>status</code></td><td>online / offline / maintenance</td></tr>
+            <tr><td><code>traffic_limit_gb</code></td><td>Лимит трафика на пользователя (NULL = безлимит)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Действия с локацией</h3>
+      <ul>
+        <li><strong>Редактировать</strong> — изменить название, лимит трафика, статус. При изменении названия система автоматически обновляет его во всех VPN-конфигурациях пользователей.</li>
+        <li><strong>Добавить сервер</strong> — открывает форму добавления сервера в эту локацию.</li>
+        <li><strong>Провижининг ключей</strong> — вручную создать ключи для всех пользователей с подпиской, у которых ещё нет ключа в этой локации.</li>
+        <li><strong>Баланс нагрузки</strong> — просмотреть распределение пользователей между серверами.</li>
+        <li><strong>Ребалансировка</strong> — автоматически перераспределить пользователей между серверами.</li>
+        <li><strong>Удалить</strong> — удаляет локацию со всеми серверами. Опционально удаляет ключи пользователей.</li>
+      </ul>
+
+      <h2 id="servers">Серверы</h2>
+
+      <h3>Данные сервера</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Поле</th><th>Описание</th></tr></thead>
+          <tbody>
+            <tr><td><code>name</code></td><td>Имя сервера (авто: NL-1, DE-2). Генерируется как КОД_СТРАНЫ-НОМЕР</td></tr>
+            <tr><td><code>ip</code></td><td>IP-адрес сервера (уникальный)</td></tr>
+            <tr><td><code>status</code></td><td>online / offline / degraded / maintenance</td></tr>
+            <tr><td><code>max_space</code></td><td>Максимальная вместимость (рекомендуется по результатам speedtest)</td></tr>
+            <tr><td><code>current_users</code></td><td>Текущее количество активных пользователей</td></tr>
+            <tr><td><code>bandwidth</code></td><td>Скорость канала (из speedtest)</td></tr>
+            <tr><td><code>x3ui_url</code></td><td>URL панели 3x-ui</td></tr>
+            <tr><td><code>x3ui_connected</code></td><td>Статус подключения к панели</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Статусы серверов</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Статус</th><th>Описание</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-green">online</span></td><td>Сервер работает, принимает подключения</td></tr>
+            <tr><td><span class="badge badge-orange">degraded</span></td><td>Нестабильная работа (прерывистая связь с агентом)</td></tr>
+            <tr><td><span class="badge badge-red">offline</span></td><td>Сервер не отвечает более 5 минут</td></tr>
+            <tr><td><span class="badge badge-gray">maintenance</span></td><td>Режим обслуживания (установлен администратором)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Действия с сервером</h3>
+      <ul>
+        <li><strong>Редактировать</strong> — изменить параметры, учётные данные 3x-ui, SSH</li>
+        <li><strong>Проверка соединения</strong> — тест SSH + 3x-ui + обновление статуса</li>
+        <li><strong>Speedtest</strong> — замер скорости канала. По результатам рассчитывается рекомендуемая вместимость</li>
+        <li><strong>Перезапуск Xray</strong> — перезапуск VPN-сервиса на сервере через 3x-ui</li>
+        <li><strong>Установить агент</strong> — установка мониторинг-агента по SSH</li>
+        <li><strong>Обслуживание</strong> — переключить в режим maintenance (новые ключи не создаются)</li>
+        <li><strong>Удалить</strong> — удаляет сервер, отключает агент, удаляет клиентов из 3x-ui</li>
+      </ul>
+
+      <div class="info-block">
+        <p><strong>Пример:</strong> Вы добавили новый сервер в локацию «Нидерланды», где уже есть 500 пользователей. После добавления нажмите «Провижининг ключей» — система автоматически создаст ключи для всех 500 пользователей на новом сервере. Прогресс отображается в реальном времени.</p>
+      </div>
+
+      <h2 id="agent">VPN Agent</h2>
+      <p>На каждый VPN-сервер устанавливается агент — скрипт, который передаёт метрики в реальном времени через WebSocket.</p>
+
+      <h3>Что агент отправляет</h3>
+      <ul>
+        <li>Загрузка CPU (%)</li>
+        <li>Использование RAM (GB)</li>
+        <li>Использование диска (GB)</li>
+        <li>Сетевой трафик (upload / download)</li>
+        <li>Список активных VPN-подключений (IP, email, трафик каждого)</li>
+        <li>Статус компонентов (xray-core, fail2ban)</li>
+      </ul>
+
+      <h3>Установка агента</h3>
+      <p>Агент устанавливается автоматически при добавлении сервера (если прошла полная проверка) или вручную через кнопку «Установить агент». Требуется SSH-доступ к серверу.</p>
+
+      <h3>Статусы агента</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Статус</th><th>Описание</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-green">online</span></td><td>Подключён, передаёт метрики</td></tr>
+            <tr><td><span class="badge badge-red">offline</span></td><td>Не отвечает более 5 минут</td></tr>
+            <tr><td><span class="badge badge-orange">degraded</span></td><td>Нестабильное соединение</td></tr>
+            <tr><td><span class="badge badge-gray">not_installed</span></td><td>Агент не установлен</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Агент использует гибридный режим: основное соединение через WebSocket, резервное — HTTP-опрос каждые 10 секунд. При потере WebSocket-соединения автоматически переключается на HTTP и обратно.</p>
+
+      <h2 id="monitoring">Мониторинг</h2>
+      <p>В верхней части страницы локаций отображаются 4 карточки мониторинга:</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-title">Серверы</div>
+          <div class="feature-card-desc">Количество онлайн серверов из общего числа. Зелёный — все работают. Жёлтый — часть офлайн. Красный — все офлайн.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-title">Агенты</div>
+          <div class="feature-card-desc">Количество подключённых агентов из установленных. Показывает состояние мониторинга.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-title">Проблемы</div>
+          <div class="feature-card-desc">Количество проблемных серверов: офлайн, degraded или агент офлайн при работающем сервере. При наведении — список проблем.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-title">Доступные подписки</div>
+          <div class="feature-card-desc">Минимальное количество свободных мест по всем локациям. Показывает «узкое горлышко» — локацию с наименьшей ёмкостью.</div>
+        </div>
+      </div>
+
+      <h3>Метрики в реальном времени</h3>
+      <p>Для каждого сервера с установленным агентом отображаются:</p>
+      <ul>
+        <li>CPU — текущая загрузка процессора</li>
+        <li>RAM — использование оперативной памяти</li>
+        <li>Диск — использование диска</li>
+        <li>Трафик — upload / download в GB</li>
+        <li>Подключения — количество активных VPN-соединений</li>
+      </ul>
+      <p>Данные обновляются каждые 5 секунд через WebSocket.</p>
+
+      <h2 id="provisioning">Провижининг ключей</h2>
+      <p>Провижининг — автоматическое создание VPN-ключей для пользователей на серверах в локации.</p>
+
+      <h3>Когда происходит</h3>
+      <ul>
+        <li><strong>Автоматически</strong> — при добавлении нового сервера в локацию</li>
+        <li><strong>Вручную</strong> — через меню локации → «Провижининг ключей»</li>
+        <li><strong>Фоновая задача</strong> — каждые 2 минуты проверяет и создаёт отсутствующие ключи</li>
+      </ul>
+
+      <h3>Как работает</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Поиск пользователей</div>
+          <div class="step-desc">Система находит пользователей с активной подпиской, у которых нет ключа в данной локации.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Выбор сервера</div>
+          <div class="step-desc">Для каждого пользователя выбирается наименее загруженный сервер в локации с свободными местами.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Создание ключа</div>
+          <div class="step-desc">На 3x-ui панели создаётся клиент с VLESS-конфигурацией. Ключ сохраняется в базе данных.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Отчёт</div>
+          <div class="step-desc">По завершении доступна статистика: создано, пропущено (уже есть), ошибок, нет места.</div>
+        </div>
+      </div>
+
+      <p>Провижининг обрабатывает пользователей пачками по 10, с задержкой 0.1 секунды между ключами и 0.5 секунды между пачками для снижения нагрузки на 3x-ui.</p>
+
+      <h2 id="balancing">Балансировка нагрузки</h2>
+
+      <h3>Просмотр баланса</h3>
+      <p>Через меню локации → «Баланс нагрузки» можно посмотреть распределение пользователей между серверами. Показывается:</p>
+      <ul>
+        <li>Количество активных ключей на каждом сервере</li>
+        <li>Процент загрузки</li>
+        <li>Средняя загрузка по локации</li>
+        <li>Статус: <span class="badge badge-green">Сбалансировано</span> (все серверы ±10% от среднего) или <span class="badge badge-orange">Несбалансировано</span></li>
+      </ul>
+
+      <h3>Ребалансировка</h3>
+      <p>Через меню локации → «Ребалансировка» система автоматически перемещает ключи с перегруженных серверов (>80% или >120% от среднего) на недогруженные (<80% от среднего).</p>
+
+      <div class="info-block">
+        <p><strong>Пример:</strong> Локация «Нидерланды» с двумя серверами: NL-1 (800/1000 = 80%) и NL-2 (200/1000 = 20%). После ребалансировки: NL-1 (500/1000 = 50%) и NL-2 (500/1000 = 50%).</p>
+      </div>
+
+      <h2 id="add-server">Добавление нового сервера</h2>
+      <p>Пошаговый процесс добавления сервера в систему.</p>
+
+      <h3>Что потребуется</h3>
+      <ul>
+        <li>VPS с установленной панелью 3x-ui</li>
+        <li>IP-адрес сервера</li>
+        <li>SSH-доступ (root, пароль или ключ)</li>
+        <li>Данные 3x-ui панели (URL, логин, пароль)</li>
+      </ul>
+
+      <h3>Процесс</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Создайте локацию (если новая)</div>
+          <div class="step-desc">Нажмите «Добавить локацию», выберите страну, задайте лимит трафика (если нужен).</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Добавьте сервер</div>
+          <div class="step-desc">В меню локации → «Добавить сервер». Введите IP, SSH-данные, данные 3x-ui панели.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Полная проверка</div>
+          <div class="step-desc">Нажмите «Полная проверка». Система проверит SSH-соединение, подключение к 3x-ui, запустит speedtest и установит агент. По результатам speedtest рассчитает рекомендуемую вместимость.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Сохраните</div>
+          <div class="step-desc">После успешной проверки нажмите «Сохранить». Система автоматически начнёт провижининг ключей для всех пользователей с подпиской.</div>
+        </div>
+      </div>
+
+      <div class="info-block warning">
+        <div class="info-block-title">Важно</div>
+        <p>Система автоматически проверяет уникальность IP — нельзя добавить два сервера с одним и тем же адресом. При вводе IP проверка происходит мгновенно.</p>
+      </div>
+
+      <h3>Расчёт вместимости</h3>
+      <p>Рекомендуемое количество пользователей рассчитывается по формуле на основе speedtest:</p>
+      <pre><code>рекомендуемых пользователей = (скорость_mbps × 0.75) / (8 mbps × 0.15)</code></pre>
+      <p>Где 8 Mbps — средняя скорость на одного пользователя, 0.15 — коэффициент одновременных подключений, 0.75 — запас по каналу.</p>
+
+      <div class="info-block">
+        <p><strong>Пример:</strong> Speedtest показал 500 Mbps. Рекомендуемая вместимость: (500 × 0.75) / (8 × 0.15) = 312 пользователей.</p>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

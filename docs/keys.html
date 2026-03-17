@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ключи и подписки — TMAVPN Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="mobile-header">
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="mobile-title">Ключи и подписки</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TMAVPN <span>docs</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Обзор</div>
+        <a href="index.html" class="nav-link">О платформе</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Админ-панель</div>
+        <a href="users.html" class="nav-link">Пользователи</a>
+        <a href="locations.html" class="nav-link">Локации и серверы</a>
+        <a href="keys.html" class="nav-link active">Ключи и подписки</a>
+        <a href="keys.html#table" class="nav-link nav-link-sub">Таблица ключей</a>
+        <a href="keys.html#statuses" class="nav-link nav-link-sub">Статусы</a>
+        <a href="keys.html#actions" class="nav-link nav-link-sub">Действия</a>
+        <a href="keys.html#subscription-token" class="nav-link nav-link-sub">Токен подписки</a>
+        <a href="keys.html#lifecycle" class="nav-link nav-link-sub">Жизненный цикл</a>
+        <a href="keys.html#traffic" class="nav-link nav-link-sub">Трафик</a>
+        <a href="keys.html#subscription-domain" class="nav-link nav-link-sub">Домен подписки</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1 class="page-title">Ключи и подписки</h1>
+      <p class="page-desc">VPN-ключи создаются автоматически при покупке подписки. Один пользователь получает отдельный ключ на каждую локацию, объединённый единым токеном подписки.</p>
+
+      <h2 id="concept">Как устроены ключи</h2>
+      <p>Каждый ключ — это конфигурация VPN (VLESS + Reality), созданная на конкретном сервере через 3x-ui панель. При покупке подписки система создаёт ключи на всех доступных локациях и объединяет их одним <strong>subscription_token</strong>.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-title">Один токен — все локации</div>
+          <div class="feature-card-desc">Пользователь получает одну ссылку подписки, которая содержит конфигурации всех серверов. Токен генерируется один раз и не меняется.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-title">Автоматический провижининг</div>
+          <div class="feature-card-desc">При добавлении новой локации ключи автоматически создаются для всех активных подписчиков. При перевыпуске — для недостающих локаций.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-title">Лимит устройств</div>
+          <div class="feature-card-desc">Ограничение одновременных подключений задаётся через параметр limit_ip в 3x-ui. Определяется тарифом пользователя.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-title">Отслеживание трафика</div>
+          <div class="feature-card-desc">VPN Agent на каждом сервере передаёт данные о трафике через WebSocket в реальном времени. Суммарный трафик хранится в профиле пользователя.</div>
+        </div>
+      </div>
+
+      <h3>Связи между сущностями</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Связь</th><th>Тип</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Пользователь → Ключи</strong></td><td>1:N</td><td>У пользователя может быть несколько ключей (по одному на каждую локацию)</td></tr>
+            <tr><td><strong>Ключ → Сервер</strong></td><td>N:1</td><td>Каждый ключ создан на конкретном сервере</td></tr>
+            <tr><td><strong>Сервер → Локация</strong></td><td>N:1</td><td>Сервер принадлежит локации (стране)</td></tr>
+            <tr><td><strong>subscription_token</strong></td><td>Группировка</td><td>Все ключи одного пользователя объединены одним токеном</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">Пример</div>
+        <p>Пользователь с тарифом «1 год» и 3 локациями (Германия, Нидерланды, США) получит 3 ключа с одним subscription_token. Все три ключа доступны по одной ссылке подписки.</p>
+      </div>
+
+      <h2 id="table">Таблица ключей</h2>
+      <p>В разделе <strong>Keys</strong> админ-панели отображается полный список VPN-ключей с информацией о каждом.</p>
+
+      <h3>Колонки таблицы</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Колонка</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>ID</strong></td><td>Уникальный идентификатор ключа в базе данных</td></tr>
+            <tr><td><strong>User</strong></td><td>Имя пользователя (username или полное имя из Telegram)</td></tr>
+            <tr><td><strong>Server</strong></td><td>IP-адрес сервера, на котором создан ключ</td></tr>
+            <tr><td><strong>Locations</strong></td><td>Количество локаций, на которых есть ключи у этого пользователя</td></tr>
+            <tr><td><strong>Status</strong></td><td><span class="badge badge-green">active</span> или <span class="badge badge-red">expired</span></td></tr>
+            <tr><td><strong>Created</strong></td><td>Дата и время создания ключа</td></tr>
+            <tr><td><strong>Expires</strong></td><td>Дата и время истечения подписки</td></tr>
+            <tr><td><strong>Days</strong></td><td>Оставшиеся дни до истечения подписки</td></tr>
+            <tr><td><strong>Plan</strong></td><td>Тарифный план пользователя</td></tr>
+            <tr><td><strong>Traffic</strong></td><td>Суммарный трафик пользователя (в ГБ)</td></tr>
+            <tr><td><strong>Bot Score</strong></td><td>Оценка вероятности того, что пользователь — бот (0–100)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Фильтры и поиск</h3>
+      <ul>
+        <li><strong>Глобальный поиск</strong> — по имени пользователя, ID, токену подписки</li>
+        <li><strong>Локация</strong> — фильтр по конкретной локации (выпадающий список)</li>
+        <li><strong>Статус</strong> — active или expired</li>
+        <li><strong>Bot Score</strong> — показать пользователей с высоким риском (боты)</li>
+      </ul>
+      <p>Сортировка доступна по колонкам: ID, дата создания, дата истечения, Telegram ID пользователя.</p>
+
+      <h2 id="statuses">Статусы ключей</h2>
+      <p>Статус ключа определяется двумя факторами: флагом <code>active</code> в базе данных и датой истечения подписки пользователя.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Статус</th><th>Условие</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-green">Active</span></td>
+              <td><code>key.active = true</code> И <code>subscription_expires_at &gt; now</code></td>
+              <td>Ключ работает, пользователь может подключаться к VPN</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-red">Expired</span></td>
+              <td><code>subscription_expires_at &le; now</code> ИЛИ <code>key.active = false</code></td>
+              <td>Подписка истекла или ключ отключён вручную</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-block accent">
+        <div class="info-block-title">Важно</div>
+        <p>Ключ считается активным только если оба условия выполнены: флаг <code>active = true</code> в базе данных и дата подписки ещё не истекла. Если хотя бы одно из условий не выполнено — ключ отображается как expired.</p>
+      </div>
+
+      <h2 id="actions">Действия с ключами</h2>
+
+      <h3>Действия в контекстном меню</h3>
+      <p>Для каждого ключа в таблице доступно выпадающее меню с действиями:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Действие</th><th>Что делает</th><th>Когда использовать</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>View Details</strong></td>
+              <td>Открывает детальную карточку ключа: все локации, история устройств, тариф</td>
+              <td>Для диагностики проблем с подключением пользователя</td>
+            </tr>
+            <tr>
+              <td><strong>Reissue Key</strong></td>
+              <td>Удаляет старый клиент на 3x-ui, создаёт новый с новым UUID. Автоматически создаёт ключи для недостающих локаций</td>
+              <td>Если ключ не работает, если добавлены новые локации, если нужна новая конфигурация</td>
+            </tr>
+            <tr>
+              <td><strong>Extend Subscription</strong></td>
+              <td>Добавляет дни к дате истечения подписки (по умолчанию +7 дней)</td>
+              <td>Компенсация за проблемы, подарок пользователю</td>
+            </tr>
+            <tr>
+              <td><strong>Delete</strong></td>
+              <td>Удаляет ключ из базы данных и с 3x-ui панели. Удаляются все ключи под одним токеном</td>
+              <td>Полная отмена подписки, удаление тестовых ключей</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Массовые действия</h3>
+      <p>При выборе нескольких ключей через чекбоксы доступны:</p>
+      <ul>
+        <li><strong>Bulk Reissue</strong> — перевыпуск выбранных ключей (с задержкой 500мс между запросами для снижения нагрузки)</li>
+        <li><strong>Bulk Delete</strong> — удаление выбранных ключей (с задержкой 300мс между запросами)</li>
+        <li><strong>Hide Inactive</strong> — скрытие expired ключей из списка (клиентская фильтрация)</li>
+      </ul>
+
+      <h3>Детальная карточка ключа</h3>
+      <p>При нажатии <strong>View Details</strong> открывается модальное окно с полной информацией:</p>
+      <ul>
+        <li><strong>Локации</strong> — список всех серверов, на которых есть ключ пользователя, с IP-адресами</li>
+        <li><strong>История устройств</strong> — какие устройства подключались, когда и откуда</li>
+        <li><strong>Тарифный план</strong> — текущий план, лимит устройств, дата истечения</li>
+        <li><strong>Количество перевыпущенных и автоматически созданных ключей</strong> — после операции reissue</li>
+      </ul>
+
+      <h2 id="subscription-token">Токен подписки</h2>
+      <p>Subscription token — это уникальный идентификатор, связывающий все ключи пользователя в одну подписку.</p>
+
+      <h3>Характеристики токена</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Параметр</th><th>Значение</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Генерация</strong></td><td><code>secrets.token_urlsafe(8)</code> — 8 символов, URL-safe</td></tr>
+            <tr><td><strong>Уникальность</strong></td><td>Проверяется в базе данных при генерации (до 10 попыток)</td></tr>
+            <tr><td><strong>Привязка</strong></td><td>Хранится в <code>Persons.subscription_token</code> и в каждом <code>Keys.subscription_token</code></td></tr>
+            <tr><td><strong>Постоянство</strong></td><td>Создаётся один раз при первой покупке. Не меняется при продлении подписки</td></tr>
+            <tr><td><strong>Формат URL</strong></td><td><code>https://domain/sub/{token}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Как работает ссылка подписки</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Пользователь копирует URL</div>
+          <div class="step-desc">Ссылка имеет формат <code>https://vpn.example.com/sub/aBc123dE</code>. Один и тот же URL используется на протяжении всего времени использования сервиса.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">VPN-клиент запрашивает конфигурацию</div>
+          <div class="step-desc">Клиент (v2RayTun, Hiddify, v2rayNG) делает GET-запрос на URL подписки. Сервер находит все ключи по токену.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Сервер возвращает агрегированную конфигурацию</div>
+          <div class="step-desc">Ответ содержит конфигурации всех активных серверов пользователя. VPN-клиент получает список всех доступных локаций.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Пользователь выбирает сервер и подключается</div>
+          <div class="step-desc">В списке серверов VPN-клиента появляются все локации. Пользователь выбирает нужную и нажимает «Подключить».</div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">Именование клиентов на 3x-ui</div>
+        <p>На каждой 3x-ui панели клиент создаётся с именем <code>{telegram_id}_vpn</code>. Например, для пользователя с Telegram ID 381799724 имя будет <code>381799724_vpn</code>. Это же имя используется для поиска, удаления и управления клиентом на панели.</p>
+      </div>
+
+      <h2 id="lifecycle">Жизненный цикл ключа</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Покупка подписки</div>
+          <div class="step-desc">Пользователь оплачивает тариф. Система генерирует subscription_token (если первая покупка), определяет лимит устройств из тарифа и начинает провижининг ключей.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Провижининг на серверы</div>
+          <div class="step-desc">Для каждой активной локации система выбирает лучший сервер (по загрузке), создаёт клиент на 3x-ui панели через ServerManager.create_client(), получает VLESS-конфигурацию и сохраняет ключ в базу данных.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Активное использование</div>
+          <div class="step-desc">Ключ активен, пользователь подключается через VPN-клиент. VPN Agent отправляет данные о трафике через WebSocket. Система отслеживает устройства и подключения.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Истечение подписки</div>
+          <div class="step-desc">Дата subscription_expires_at проходит. Фоновая задача проверяет истёкшие подписки каждые 60 секунд. Ключи отключаются, пользователь получает уведомление через бота.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Продление или удаление</div>
+          <div class="step-desc">При продлении: дата подписки обновляется, ключи включаются обратно, трафик сбрасывается. При удалении: клиенты удаляются с 3x-ui, записи удаляются из базы, счётчик current_users на серверах уменьшается.</div>
+        </div>
+      </div>
+
+      <h3>Перевыпуск ключей (Reissue)</h3>
+      <p>Операция reissue выполняет полное пересоздание ключей пользователя:</p>
+      <ol>
+        <li>Находит все ключи пользователя по subscription_token</li>
+        <li>Для каждого существующего ключа: удаляет старый клиент на 3x-ui, создаёт новый с новым UUID</li>
+        <li>Проверяет, есть ли локации без ключей (новые локации, добавленные после покупки)</li>
+        <li>Для недостающих локаций: выбирает сервер, создаёт клиент, сохраняет ключ</li>
+      </ol>
+
+      <div class="info-block accent">
+        <div class="info-block-title">Результат перевыпуска</div>
+        <p>Ответ содержит: <code>reissued_count</code> (перевыпущенные), <code>provisioned_count</code> (новые локации), <code>total</code> (общее количество), <code>errors</code> (ошибки, если были).</p>
+      </div>
+
+      <h3>Каскадное удаление</h3>
+      <p>При удалении ключа удаляются <strong>все ключи</strong> под тем же subscription_token. Это сделано по дизайну — подписка работает как единое целое. Дополнительно очищаются поля пользователя:</p>
+      <ul>
+        <li><code>subscription_expires_at</code> → null</li>
+        <li><code>current_plan_id</code> → null</li>
+        <li><code>device_limit</code> → 0</li>
+        <li><code>last_notification_key</code>, <code>last_notification_at</code> → null</li>
+      </ul>
+      <p>При этом <code>subscription_token</code>, <code>subscription_created_at</code> и <code>total_traffic</code> сохраняются для истории.</p>
+
+      <h2 id="traffic">Трафик</h2>
+
+      <h3>Как собирается трафик</h3>
+      <p>Данные о трафике приходят в реальном времени от VPN Agent, установленного на каждом сервере.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Agent отправляет данные</div>
+          <div class="step-desc">VPN Agent на сервере собирает статистику с 3x-ui панели и отправляет список клиентов с up_bytes и down_bytes через WebSocket.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Идентификация пользователя</div>
+          <div class="step-desc">Telegram ID извлекается из имени клиента: <code>381799724_vpn</code> → <code>381799724</code>.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Суммирование по серверам</div>
+          <div class="step-desc">Трафик суммируется по всем серверам пользователя. Результат записывается в <code>Persons.total_traffic</code> (в байтах).</div>
+        </div>
+      </div>
+
+      <h3>Лимиты трафика</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Тип лимита</th><th>Где задаётся</th><th>Как работает</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Трафик на локацию</strong></td>
+              <td><code>Location.traffic_limit_gb</code></td>
+              <td>Устанавливается через limit_gb при создании клиента на 3x-ui. Null или 0 — безлимитно</td>
+            </tr>
+            <tr>
+              <td><strong>Устройства</strong></td>
+              <td><code>Persons.device_limit</code> (из тарифа)</td>
+              <td>Ограничение одновременных подключений через limit_ip на 3x-ui</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Сброс трафика</h3>
+      <ul>
+        <li><strong>Ежемесячный сброс</strong> — фоновая задача сбрасывает счётчики трафика на 3x-ui для каждой локации. В ключе обновляется <code>traffic_reset_at</code></li>
+        <li><strong>При продлении подписки</strong> — трафик сбрасывается автоматически через <code>reset_client_traffic()</code> на 3x-ui</li>
+      </ul>
+
+      <h2 id="subscription-domain">Домен подписки</h2>
+      <p>По умолчанию ссылки подписки используют основной домен платформы. Можно настроить отдельный домен для ссылок подписки.</p>
+
+      <h3>Настройка домена</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Укажите домен</div>
+          <div class="step-desc">В настройках админ-панели введите домен (например, <code>sub.vpn.example.com</code>). Домен должен быть направлен на IP сервера через A-запись в DNS.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Проверка DNS</div>
+          <div class="step-desc">Система проверяет, что домен указывает на правильный IP. Если DNS не настроен — выдаст ошибку.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Настройка Nginx и SSL</div>
+          <div class="step-desc">Автоматически настраивается конфигурация Nginx на хосте и получается SSL-сертификат через Let's Encrypt. Процесс занимает 1–3 минуты.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Активация</div>
+          <div class="step-desc">После успешной настройки все новые ссылки подписки будут использовать новый домен. Существующие ссылки в базе данных обновляются автоматически.</div>
+        </div>
+      </div>
+
+      <div class="info-block warning">
+        <div class="info-block-title">Зачем отдельный домен</div>
+        <p>Если основной домен заблокируют, ссылки подписки перестанут работать. Отдельный домен для подписок позволяет быстро переключиться на новый адрес без потери доступа пользователей к VPN.</p>
+      </div>
+
+      <h2 id="data-model">Модель данных</h2>
+      <p>Структура таблицы <code>keys</code> в базе данных:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Поле</th><th>Тип</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>id</strong></td><td>Integer, PK</td><td>Уникальный идентификатор ключа</td></tr>
+            <tr><td><strong>user_tgid</strong></td><td>BigInteger, FK</td><td>Telegram ID пользователя (ссылка на users.tgid)</td></tr>
+            <tr><td><strong>server_id</strong></td><td>Integer, FK</td><td>ID сервера (ссылка на servers.id). При удалении сервера — SET NULL</td></tr>
+            <tr><td><strong>subscription_token</strong></td><td>String(255)</td><td>Токен подписки для группировки ключей</td></tr>
+            <tr><td><strong>subscription_url</strong></td><td>Text</td><td>VPN-конфигурация (vless://...)</td></tr>
+            <tr><td><strong>subscription_full_url</strong></td><td>Text</td><td>Полный URL подписки (https://domain/sub/token)</td></tr>
+            <tr><td><strong>active</strong></td><td>Boolean</td><td>Включён/выключен (по умолчанию true)</td></tr>
+            <tr><td><strong>created_at</strong></td><td>DateTime</td><td>Дата и время создания</td></tr>
+            <tr><td><strong>traffic_reset_at</strong></td><td>DateTime</td><td>Дата последнего сброса трафика</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Индексы</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Индекс</th><th>Поля</th><th>Назначение</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>idx_keys_user_tgid</code></td><td>user_tgid</td><td>Быстрый поиск ключей по пользователю</td></tr>
+            <tr><td><code>idx_keys_server_id</code></td><td>server_id</td><td>Поиск ключей по серверу</td></tr>
+            <tr><td><code>idx_keys_subscription_token</code></td><td>subscription_token</td><td>Поиск по токену подписки</td></tr>
+            <tr><td><code>idx_keys_active</code></td><td>active</td><td>Фильтрация по статусу</td></tr>
+            <tr><td><code>idx_keys_user_active</code></td><td>user_tgid + active</td><td>Активные ключи пользователя</td></tr>
+            <tr><td><code>idx_keys_subscription_server</code></td><td>subscription_token + server_id</td><td>Ключ по подписке и серверу</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="api">API-эндпоинты</h2>
+
+      <h3>Админские эндпоинты</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Метод</th><th>Эндпоинт</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/stats/keys</code></td><td>Статистика: total, active, expired, created_today</td></tr>
+            <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/keys</code></td><td>Список всех ключей с пагинацией</td></tr>
+            <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/keys/{id}/details</code></td><td>Детальная информация о ключе</td></tr>
+            <tr><td><span class="badge badge-green">POST</span></td><td><code>/api/keys</code></td><td>Создать новый ключ</td></tr>
+            <tr><td><span class="badge badge-green">POST</span></td><td><code>/api/keys/{id}/reissue</code></td><td>Перевыпустить ключ на всех серверах</td></tr>
+            <tr><td><span class="badge badge-orange">PUT</span></td><td><code>/api/keys/{id}/subscription</code></td><td>Продлить подписку на N дней</td></tr>
+            <tr><td><span class="badge badge-red">DELETE</span></td><td><code>/api/keys/{id}</code></td><td>Удалить ключ (каскадно все ключи подписки)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Пользовательские эндпоинты</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Метод</th><th>Эндпоинт</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/user/keys</code></td><td>Все ключи текущего пользователя</td></tr>
+            <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/user/subscription-url</code></td><td>URL подписки пользователя</td></tr>
+            <tr><td><span class="badge badge-blue">GET</span></td><td><code>/sub/{token}</code></td><td>Публичный эндпоинт — агрегированная VPN-конфигурация</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Эндпоинты домена подписки</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Метод</th><th>Эндпоинт</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="badge badge-blue">GET</span></td><td><code>/admin/settings/subscription-domain/status</code></td><td>Текущий статус домена подписки</td></tr>
+            <tr><td><span class="badge badge-green">POST</span></td><td><code>/admin/settings/subscription-domain/check</code></td><td>Проверить DNS-запись домена</td></tr>
+            <tr><td><span class="badge badge-green">POST</span></td><td><code>/admin/settings/subscription-domain/apply</code></td><td>Настроить Nginx + SSL для домена</td></tr>
+            <tr><td><span class="badge badge-red">DELETE</span></td><td><code>/admin/settings/subscription-domain</code></td><td>Удалить кастомный домен</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

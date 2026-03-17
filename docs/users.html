@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пользователи — TMAVPN Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="mobile-header">
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="mobile-title">Пользователи</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TMAVPN <span>docs</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Обзор</div>
+        <a href="index.html" class="nav-link">О платформе</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Админ-панель</div>
+        <a href="users.html" class="nav-link active">Пользователи</a>
+        <a href="users.html#table" class="nav-link nav-link-sub">Таблица</a>
+        <a href="users.html#filters" class="nav-link nav-link-sub">Фильтры</a>
+        <a href="users.html#actions" class="nav-link nav-link-sub">Действия</a>
+        <a href="users.html#user-details" class="nav-link nav-link-sub">Карточка пользователя</a>
+        <a href="users.html#lifecycle" class="nav-link nav-link-sub">Жизненный цикл</a>
+        <a href="users.html#bot-detection" class="nav-link nav-link-sub">Обнаружение ботов</a>
+        <a href="locations.html" class="nav-link">Локации и серверы</a>
+        <a href="keys.html" class="nav-link">Ключи и подписки</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1 class="page-title">Пользователи</h1>
+      <p class="page-desc">Управление пользователями VPN-сервиса: просмотр, фильтрация, бан, продление подписки, экспорт данных.</p>
+
+      <h2 id="overview">Обзор</h2>
+      <p>Каждый пользователь, который запускает Mini App или бота — автоматически регистрируется в системе. Ему присваивается уникальный <strong>Telegram ID</strong>, фиксируется источник регистрации (органика, реферал, рекламная кампания), IP-адрес и платформа.</p>
+      <p>Пользователь может находиться в одном из состояний:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Статус</th><th>Описание</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-green">Активен</span></td><td>Подписка действует, ключи включены</td></tr>
+            <tr><td><span class="badge badge-orange">Истёк</span></td><td>Подписка истекла, ключи автоматически отключены</td></tr>
+            <tr><td><span class="badge badge-red">Забанен</span></td><td>Администратор заблокировал пользователя, все ключи отключены</td></tr>
+            <tr><td><span class="badge badge-gray">Нет подписки</span></td><td>Пользователь зарегистрирован, но не покупал подписку</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="table">Таблица пользователей</h2>
+      <p>Основная страница «Пользователи» в админке отображает таблицу со всеми зарегистрированными пользователями.</p>
+
+      <h3>Колонки таблицы</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Колонка</th><th>Содержимое</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Пользователь</strong></td><td>Имя, @username (ссылка на Telegram), Telegram ID</td></tr>
+            <tr><td><strong>Источник</strong></td><td>Откуда пришёл: <span class="badge badge-gray">Органика</span> <span class="badge badge-blue">Реферал</span> <span class="badge badge-orange">Реклама</span></td></tr>
+            <tr><td><strong>Score</strong></td><td>Оценка бота (0-100). Чем выше — тем вероятнее что это бот</td></tr>
+            <tr><td><strong>Тариф</strong></td><td>Текущий план: Пробный, 1 месяц, 3 месяца, 6 месяцев, 1 год</td></tr>
+            <tr><td><strong>Статус</strong></td><td>Активен / Истёк / Забанен / —</td></tr>
+            <tr><td><strong>Дата</strong></td><td>Дата регистрации</td></tr>
+            <tr><td><strong>Доход</strong></td><td>Сумма всех платежей пользователя</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Аналитика</h3>
+      <p>Над таблицей отображаются карточки с метриками:</p>
+      <ul>
+        <li><strong>Всего пользователей</strong> — общее количество зарегистрированных</li>
+        <li><strong>Платящие</strong> — с активной подпиской (не пробной)</li>
+        <li><strong>Пробный период</strong> — на пробном тарифе</li>
+        <li><strong>Онлайн</strong> — пользователей в приложении прямо сейчас (данные в реальном времени через WebSocket)</li>
+      </ul>
+
+      <h2 id="filters">Фильтры и поиск</h2>
+      <p>Таблица поддерживает поиск и фильтрацию для быстрого нахождения нужных пользователей.</p>
+
+      <h3>Поиск</h3>
+      <p>Текстовый поиск по имени, @username или Telegram ID. Работает мгновенно по мере ввода.</p>
+
+      <h3>Фильтры</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Фильтр</th><th>Значения</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Статус</strong></td><td>Забаненные пользователи</td></tr>
+            <tr><td><strong>Источник</strong></td><td>Органика, Реферал, Реклама</td></tr>
+            <tr><td><strong>Bot Score</strong></td><td>Боты (50+), Подозрительные (25+)</td></tr>
+            <tr><td><strong>Тариф</strong></td><td>Пробный, 1 месяц, 3 месяца, 6 месяцев, 1 год</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Скрыть неактивных</h3>
+      <p>Переключатель «Скрыть неактивных» в панели инструментов скрывает пользователей без подписки. Настройка сохраняется между сеансами.</p>
+
+      <h2 id="actions">Действия</h2>
+
+      <h3>Массовые действия</h3>
+      <p>Выделите несколько пользователей чекбоксами — появится плавающая панель с действиями:</p>
+      <ul>
+        <li><strong>Забанить</strong> — блокирует выбранных пользователей, отключает все ключи</li>
+        <li><strong>Разбанить</strong> — снимает блокировку</li>
+        <li><strong>Назначить тариф</strong> — создаёт подписку на выбранный тариф для всех выделенных</li>
+        <li><strong>Продлить подписку</strong> — добавляет дни к существующей подписке (быстрый выбор: 7, 14, 30, 90 дней или произвольное значение)</li>
+      </ul>
+
+      <div class="info-block">
+        <p><strong>Пример:</strong> Вы хотите дать бонус активным пользователям. Отфильтруйте по тарифу «6 месяцев», выделите нужных, нажмите «Продлить подписку» → 7 дней. Всем выбранным добавится неделя к текущей подписке.</p>
+      </div>
+
+      <h3>Действия с одним пользователем</h3>
+      <p>Нажмите на строку пользователя для открытия карточки с полной информацией и действиями.</p>
+
+      <h3>Экспорт</h3>
+      <p>Кнопка «Экспорт» скачивает CSV-файл с данными пользователей. Доступны три варианта:</p>
+      <ul>
+        <li>Все пользователи</li>
+        <li>Только с активной подпиской</li>
+        <li>Только без подписки</li>
+      </ul>
+
+      <h2 id="user-details">Карточка пользователя</h2>
+      <p>При клике на пользователя открывается модальное окно с полной информацией.</p>
+
+      <h3>Шапка</h3>
+      <ul>
+        <li>Имя и @username (со ссылкой на Telegram)</li>
+        <li>Telegram ID (кликабельный для копирования)</li>
+        <li>Индикатор онлайна (зелёная точка если активен менее 2 минут назад)</li>
+        <li>Источник регистрации</li>
+      </ul>
+
+      <h3>Кнопки действий</h3>
+      <ul>
+        <li><strong>Назначить тариф</strong> — появляется если у пользователя нет подписки. Выбор тарифа из списка</li>
+        <li><strong>Продлить</strong> — появляется если подписка есть. Добавляет дни</li>
+        <li><strong>Забанить / Разбанить</strong> — переключение блокировки</li>
+        <li><strong>Удалить</strong> — полное удаление пользователя со всеми данными (ключи, платежи, промокоды, рефералы)</li>
+      </ul>
+
+      <h3>Вкладка «Обзор»</h3>
+      <p>Общая информация: суммарный доход, статус подписки, текущий тариф, дата регистрации, последняя активность, количество подписок.</p>
+
+      <h3>Вкладка «Платежи»</h3>
+      <p>Список всех транзакций пользователя: план, дата, сумма и статус (<span class="badge badge-green">Успешно</span>, <span class="badge badge-orange">В обработке</span>, <span class="badge badge-red">Неуспешно</span>, <span class="badge badge-gray">Возврат</span>).</p>
+
+      <h3>Вкладка «Рефералы»</h3>
+      <p>Пользователи, которые зарегистрировались по реферальной ссылке данного пользователя. Для каждого реферала: имя, дата регистрации, начисленные бонусные дни.</p>
+
+      <h3>Вкладка «Подписки»</h3>
+      <p>Все подписки пользователя, сгруппированные по токену. Для каждой:</p>
+      <ul>
+        <li>Статус (активна / истекла) с датой окончания</li>
+        <li>Оставшиеся дни</li>
+        <li>Токен подписки (кликабельный для копирования)</li>
+        <li>Список локаций, на которых созданы ключи</li>
+      </ul>
+
+      <h2 id="lifecycle">Жизненный цикл пользователя</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Регистрация</div>
+          <div class="step-desc">Пользователь открывает Mini App или бота. Система фиксирует Telegram ID, имя, источник (реферальная ссылка, рекламная кампания или органика), IP-адрес и платформу.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Пробный период</div>
+          <div class="step-desc">Пользователь активирует бесплатный пробный период (длительность настраивается в админке). Система создаёт ключи на всех доступных локациях.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Покупка подписки</div>
+          <div class="step-desc">Пользователь выбирает тариф, оплачивает. Подписка продлевается, ключи активируются.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Использование</div>
+          <div class="step-desc">Ключи работают, трафик считается. Перед окончанием подписки бот отправляет уведомления (за 3 дня, за 1 день, в день окончания).</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Истечение подписки</div>
+          <div class="step-desc">Ключи автоматически отключаются (проверка каждые 60 секунд). Бот отправляет уведомление о продлении. Через 3 дня — повторное напоминание.</div>
+        </div>
+      </div>
+
+      <h3>Уведомления</h3>
+      <p>Система автоматически отправляет уведомления через Telegram-бота на ключевых этапах. Уведомления не дублируются — система запоминает последнее отправленное уведомление.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Момент</th><th>Пробный период</th><th>Платная подписка</th></tr></thead>
+          <tbody>
+            <tr><td>День 1</td><td>Приветствие + инструкция</td><td>—</td></tr>
+            <tr><td>День 3</td><td>Напоминание об использовании</td><td>—</td></tr>
+            <tr><td>Последний день</td><td>Предложение купить</td><td>—</td></tr>
+            <tr><td>За 3 дня до окончания</td><td>—</td><td>Напоминание о продлении</td></tr>
+            <tr><td>За 1 день</td><td>—</td><td>Напоминание о продлении</td></tr>
+            <tr><td>Истекла</td><td>Предложение купить</td><td>Предложение продлить</td></tr>
+            <tr><td>3 дня после истечения</td><td>—</td><td>Финальное напоминание</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="bot-detection">Обнаружение ботов</h2>
+      <p>Система оценивает вероятность того, что пользователь является ботом. Каждому пользователю присваивается <strong>Bot Score</strong> от 0 до 100.</p>
+
+      <h3>Как работает</h3>
+      <p>При регистрации фиксируются: IP-адрес, User-Agent и платформа. На основе этих данных система вычисляет оценку. В таблице пользователей Score отображается цветом:</p>
+      <ul>
+        <li><span class="badge badge-gray">0-24</span> — обычный пользователь</li>
+        <li><span class="badge badge-orange">25-49</span> — подозрительный</li>
+        <li><span class="badge badge-red">50-100</span> — вероятно бот</li>
+      </ul>
+
+      <h3>Действия администратора</h3>
+      <ul>
+        <li><strong>Подтвердить как бота</strong> — устанавливает Score = 100, банит пользователя и отключает все ключи</li>
+        <li><strong>Фильтр по Score</strong> — в таблице пользователей можно отфильтровать ботов (50+) и подозрительных (25+)</li>
+      </ul>
+
+      <h2 id="data-model">Данные пользователя</h2>
+      <p>Полный список данных, хранящихся для каждого пользователя:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Поле</th><th>Описание</th></tr></thead>
+          <tbody>
+            <tr><td><code>tgid</code></td><td>Telegram ID — уникальный идентификатор</td></tr>
+            <tr><td><code>username</code></td><td>Telegram @username</td></tr>
+            <tr><td><code>fullname</code></td><td>Полное имя в Telegram</td></tr>
+            <tr><td><code>lang</code></td><td>Язык (по умолчанию ru)</td></tr>
+            <tr><td><code>subscription_token</code></td><td>Постоянный токен подписки (не меняется)</td></tr>
+            <tr><td><code>subscription_expires_at</code></td><td>Дата окончания подписки</td></tr>
+            <tr><td><code>current_plan_id</code></td><td>Текущий тариф (trial, 1month, 3months, 6months, 1year)</td></tr>
+            <tr><td><code>device_limit</code></td><td>Лимит устройств (0 = без ограничений)</td></tr>
+            <tr><td><code>total_traffic</code></td><td>Суммарный трафик по всем серверам (байт)</td></tr>
+            <tr><td><code>referral_user_tgid</code></td><td>Кто привёл этого пользователя</td></tr>
+            <tr><td><code>source</code></td><td>Источник: organic, referral, ad</td></tr>
+            <tr><td><code>ad_campaign</code></td><td>Рекламная кампания (если пришёл по UTM)</td></tr>
+            <tr><td><code>bot_score</code></td><td>Оценка бота (0-100)</td></tr>
+            <tr><td><code>banned</code></td><td>Заблокирован ли</td></tr>
+            <tr><td><code>created_at</code></td><td>Дата регистрации</td></tr>
+            <tr><td><code>last_active</code></td><td>Последняя активность</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
