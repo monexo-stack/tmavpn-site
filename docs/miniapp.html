@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini App — TMAVPN Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="mobile-header">
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="mobile-title">Mini App</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TMAVPN <span>docs</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Обзор</div>
+        <a href="index.html" class="nav-link">О платформе</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Клиентская часть</div>
+        <a href="miniapp.html" class="nav-link active">Mini App</a>
+        <a href="miniapp.html#home" class="nav-link nav-link-sub">Главная</a>
+        <a href="miniapp.html#purchase" class="nav-link nav-link-sub">Покупка</a>
+        <a href="miniapp.html#payment" class="nav-link nav-link-sub">Оплата</a>
+        <a href="miniapp.html#setup" class="nav-link nav-link-sub">Установка VPN</a>
+        <a href="miniapp.html#profile" class="nav-link nav-link-sub">Профиль</a>
+        <a href="bot.html" class="nav-link">Telegram бот</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Админ-панель</div>
+        <a href="users.html" class="nav-link">Пользователи</a>
+        <a href="locations.html" class="nav-link">Локации и серверы</a>
+        <a href="keys.html" class="nav-link">Ключи и подписки</a>
+        <a href="payments.html" class="nav-link">Платежи</a>
+        <a href="promocodes.html" class="nav-link">Промокоды и рефералы</a>
+        <a href="broadcasts.html" class="nav-link">Рассылки</a>
+        <a href="settings.html" class="nav-link">Настройки</a>
+        <a href="tracking.html" class="nav-link">Трекинг</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1 class="page-title">Mini App</h1>
+      <p class="page-desc">Клиентское приложение внутри Telegram. Через него пользователь покупает подписку, настраивает VPN на устройстве и управляет аккаунтом.</p>
+
+      <h2 id="overview">Общий обзор</h2>
+      <p>Mini App открывается прямо в Telegram и автоматически адаптируется к теме пользователя (тёмная/светлая). Приложение определяет платформу устройства (iOS, Android, Windows, macOS, Linux) и показывает соответствующие инструкции.</p>
+
+      <h3>Экраны приложения</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Экран</th><th>Назначение</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Главная</strong></td><td>Статус подписки, кнопки покупки/установки/профиля/поддержки</td></tr>
+            <tr><td><strong>Покупка</strong></td><td>Выбор тарифа и количества устройств</td></tr>
+            <tr><td><strong>Подтверждение</strong></td><td>Промокод, выбор способа оплаты, чек</td></tr>
+            <tr><td><strong>Ожидание оплаты</strong></td><td>Спиннер, проверка статуса каждые 15 секунд</td></tr>
+            <tr><td><strong>Успешная оплата</strong></td><td>Анимация, кнопка установки VPN</td></tr>
+            <tr><td><strong>Установка VPN</strong></td><td>Пошаговая настройка (3 шага) или инструкция для другого устройства</td></tr>
+            <tr><td><strong>Профиль</strong></td><td>Транзакции, реферальная программа, поддержка</td></tr>
+            <tr><td><strong>Заблокирован</strong></td><td>Сообщение о блокировке + кнопка поддержки</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="home">Главная страница</h2>
+      <p>Первый экран после открытия Mini App. Показывает текущий статус подписки и основные действия.</p>
+
+      <h3>Анимированный стикер</h3>
+      <p>В верхней части отображается анимированный элемент — можно выбрать один из встроенных SVG-вариантов (щит, солнце, капля, терминал, геолокация, волна) или загрузить свой стикер через админку.</p>
+
+      <h3>Карточка подписки</h3>
+      <p>Показывает текущий статус:</p>
+      <ul>
+        <li><strong>Подписка активна</strong> — «Действует до DD MMM» или «Осталось X дней» (если 3 дня и менее)</li>
+        <li><strong>Пробный период доступен</strong> — «Пробный период»</li>
+        <li><strong>Подписка истекла</strong> — «Истекла»</li>
+        <li><strong>Нет подписки</strong> — «Не активна»</li>
+      </ul>
+
+      <h3>Кнопки</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Кнопка</th><th>Когда показывается</th><th>Действие</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Попробовать FREE</strong></td>
+              <td>Пробный период доступен, подписки нет</td>
+              <td>Активирует пробный период</td>
+            </tr>
+            <tr>
+              <td><strong>Купить</strong></td>
+              <td>Нет активной подписки, trial использован</td>
+              <td>Переход на страницу покупки</td>
+            </tr>
+            <tr>
+              <td><strong>Продлить</strong></td>
+              <td>Есть активная подписка</td>
+              <td>Переход на страницу покупки</td>
+            </tr>
+            <tr>
+              <td><strong>Установить на [платформа]</strong></td>
+              <td>Всегда</td>
+              <td>Переход к настройке VPN</td>
+            </tr>
+            <tr>
+              <td><strong>Профиль</strong></td>
+              <td>Всегда</td>
+              <td>Открывает профиль</td>
+            </tr>
+            <tr>
+              <td><strong>Поддержка</strong></td>
+              <td>Всегда</td>
+              <td>Открывает чат с ботом поддержки</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Кнопка установки автоматически определяет платформу и показывает: «Установить на iOS», «Установить на Android», «Установить на Windows» и т.д.</p>
+
+      <h2 id="purchase">Покупка подписки</h2>
+
+      <h3>Выбор устройств</h3>
+      <p>Интерактивный слайдер с 5 точками (1–5 устройств). Показывает выбранное количество крупным числом и стоимость доплаты за дополнительные устройства.</p>
+
+      <h3>Выбор тарифа</h3>
+      <p>Сетка 2×2 с тарифами:</p>
+      <ul>
+        <li><strong>1 месяц</strong> — базовая цена</li>
+        <li><strong>3 месяца</strong> — показывается цена за месяц</li>
+        <li><strong>6 месяцев</strong> — отмечен как «ХИТ», по умолчанию выбран</li>
+        <li><strong>1 год</strong> — показывается цена за месяц</li>
+      </ul>
+      <p>Выбранный план подсвечивается цветной рамкой. Кнопка оплаты показывает итоговую сумму.</p>
+
+      <h2 id="payment">Процесс оплаты</h2>
+
+      <h3>Подтверждение</h3>
+      <p>Перед оплатой пользователь видит:</p>
+      <ul>
+        <li><strong>Карточка заказа</strong> — тариф, количество устройств, дата окончания подписки</li>
+        <li><strong>Промокод</strong> — раскрывающееся поле для ввода промокода. При применении показывается размер скидки</li>
+        <li><strong>Способ оплаты</strong> — список доступных систем с иконками (показываются только включённые в настройках)</li>
+        <li><strong>Доставка чека</strong> — «В Telegram» или «Не надо» (если включено в настройках)</li>
+      </ul>
+
+      <h3>Доступные способы оплаты</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Система</th><th>Иконка</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>YooKassa</strong></td><td>₽</td><td>Карты, СБП</td></tr>
+            <tr><td><strong>CryptoBot</strong></td><td>₿</td><td>BTC, ETH, USDT</td></tr>
+            <tr><td><strong>Telegram Stars</strong></td><td>Star</td><td>Telegram Stars</td></tr>
+            <tr><td><strong>YooMoney</strong></td><td>Wallet</td><td>Кошелёк, карты</td></tr>
+            <tr><td><strong>FreeKassa</strong></td><td>Wallet</td><td>60+ способов</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Ожидание оплаты</h3>
+      <p>После перехода на платёжную систему пользователь видит экран ожидания со спиннером. Статус проверяется автоматически каждые 15 секунд. Через 30 секунд появляется кнопка «Проверить» для ручной проверки.</p>
+
+      <h3>Успешная оплата</h3>
+      <p>Анимированный стикер (настраивается через админку), сменяющийся заголовок и кнопка перехода к настройке VPN на устройстве.</p>
+
+      <h2 id="setup">Установка VPN</h2>
+      <p>Пошаговый мастер настройки VPN на устройстве пользователя.</p>
+
+      <h3>Выбор устройства</h3>
+      <p>Два варианта:</p>
+      <ul>
+        <li><strong>Установить на это устройство</strong> — для мобильных (iOS/Android), переход к 3 шагам</li>
+        <li><strong>Установить на другое устройство</strong> — для десктопа (Windows/macOS/Linux), показывает ссылку подписки для ручного импорта</li>
+      </ul>
+
+      <h3>Шаг 1: Скачайте приложение</h3>
+      <p>Ссылки на скачивание VPN-клиента v2RayTun для текущей платформы:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Платформа</th><th>Источник</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>iOS / macOS</strong></td><td>App Store</td></tr>
+            <tr><td><strong>Android</strong></td><td>Google Play</td></tr>
+            <tr><td><strong>Windows / Linux</strong></td><td>GitHub Releases</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Шаг 2: Добавьте подписку</h3>
+      <p>Пользователь выбирает свою подписку из списка и нажимает «Добавить в v2RayTun». Приложение автоматически открывает VPN-клиент и импортирует конфигурацию через deep link.</p>
+
+      <h3>Шаг 3: Готово</h3>
+      <p>Экран с анимацией успеха и инструкцией вернуться в VPN-приложение для подключения к серверу.</p>
+
+      <h3>Другое устройство</h3>
+      <p>Для десктопных устройств показывается ссылка подписки, которую можно скопировать и вставить в VPN-клиент на компьютере.</p>
+
+      <h2 id="profile">Профиль</h2>
+      <p>Раздел с информацией о пользователе и его подписках.</p>
+
+      <h3>Содержимое</h3>
+      <ul>
+        <li><strong>История транзакций</strong> — список всех платежей со статусами (оплачен, в обработке, ошибка)</li>
+        <li><strong>Реферальная программа</strong> — реферальная ссылка, количество приглашённых, заработанные бонусы, возможность вывода средств (в денежном режиме) или применения бонусных дней</li>
+        <li><strong>Поддержка</strong> — ссылка на бота поддержки</li>
+      </ul>
+
+      <h2 id="banned">Экран блокировки</h2>
+      <p>Если аккаунт пользователя заблокирован, вместо главной страницы показывается:</p>
+      <ul>
+        <li>Иконка красного щита</li>
+        <li>Заголовок: «Доступ заблокирован»</li>
+        <li>Текст: «Ваш аккаунт был заблокирован. Если вы считаете, что это ошибка, обратитесь в службу поддержки.»</li>
+        <li>Кнопка: «Связаться с поддержкой» — открывает бота поддержки</li>
+      </ul>
+
+      <h2 id="theme">Темы оформления</h2>
+      <p>Mini App поддерживает несколько тем оформления, настраиваемых через админку:</p>
+      <ul>
+        <li><strong>Default</strong> — синий градиент, glass-эффекты</li>
+        <li><strong>Neon</strong> — фиолетовый/розовый с неоновым свечением</li>
+        <li><strong>Sunset</strong> — тёплые оранжевые тона</li>
+        <li><strong>Ocean</strong> — голубой/бирюзовый</li>
+        <li><strong>Cyber</strong> — зелёный, терминальный стиль</li>
+        <li><strong>Minimal</strong> — нейтральный, серый</li>
+        <li><strong>Aurora</strong> — фиолетовый/синий с волнами</li>
+      </ul>
+      <p>Каждая тема автоматически адаптируется к тёмному и светлому режиму Telegram. Настраиваются: основной цвет, градиенты фона и шапки, стиль карточек, интенсивность свечения.</p>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

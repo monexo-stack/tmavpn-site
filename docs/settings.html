@@ -29,6 +29,11 @@
         <a href="index.html" class="nav-link">О платформе</a>
       </div>
       <div class="nav-section">
+        <div class="nav-section-title">Клиентская часть</div>
+        <a href="miniapp.html" class="nav-link">Mini App</a>
+        <a href="bot.html" class="nav-link">Telegram бот</a>
+      </div>
+      <div class="nav-section">
         <div class="nav-section-title">Админ-панель</div>
         <a href="users.html" class="nav-link">Пользователи</a>
         <a href="locations.html" class="nav-link">Локации и серверы</a>
@@ -40,9 +45,16 @@
         <a href="settings.html#bot" class="nav-link nav-link-sub">Бот</a>
         <a href="settings.html#payments-config" class="nav-link nav-link-sub">Платёжные системы</a>
         <a href="settings.html#subscriptions" class="nav-link nav-link-sub">Подписки</a>
+        <a href="settings.html#referrals-config" class="nav-link nav-link-sub">Рефералы</a>
+        <a href="settings.html#notifications" class="nav-link nav-link-sub">Уведомления</a>
+        <a href="settings.html#ai" class="nav-link nav-link-sub">ИИ-поддержка</a>
+        <a href="settings.html#maintenance" class="nav-link nav-link-sub">Тех. работы</a>
+        <a href="settings.html#domain" class="nav-link nav-link-sub">Домен подписок</a>
         <a href="settings.html#theme" class="nav-link nav-link-sub">Тема Mini App</a>
         <a href="settings.html#texts" class="nav-link nav-link-sub">Тексты</a>
         <a href="settings.html#stickers" class="nav-link nav-link-sub">Стикеры</a>
+        <a href="settings.html#logs" class="nav-link nav-link-sub">Логи</a>
+        <a href="settings.html#database" class="nav-link nav-link-sub">База данных</a>
         <a href="tracking.html" class="nav-link">Трекинг</a>
       </div>
     </nav>
@@ -228,6 +240,97 @@
         <li><strong>Максимальный размер</strong>: 5 МБ</li>
         <li><strong>Тип Hero</strong>: встроенная анимация или загруженный стикер</li>
       </ul>
+
+      <h2 id="referrals-config">Настройки реферальной системы</h2>
+      <p>Выбор режима реферальной программы и настройка бонусов.</p>
+
+      <h3>Режим «Дни»</h3>
+      <ul>
+        <li>Бонусные дни за приглашение (по умолчанию 3)</li>
+        <li>Бонусные дни за покупку — настраивается отдельно для каждого тарифа</li>
+      </ul>
+
+      <h3>Режим «Деньги»</h3>
+      <ul>
+        <li>Процент комиссии от покупки приглашённого (по умолчанию 10%)</li>
+        <li>Минимальная сумма вывода (по умолчанию 500 ₽)</li>
+        <li>API-ключ FreeKassa для автоматических выплат</li>
+      </ul>
+
+      <h2 id="notifications">Уведомления администратора</h2>
+      <p>Настройка автоматических уведомлений, которые администратор получает в бот поддержки.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Уведомление</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Сервер недоступен</strong></td><td>Алерт при потере связи с VPN-сервером</td></tr>
+            <tr><td><strong>Сервер восстановлен</strong></td><td>Уведомление о восстановлении работы сервера</td></tr>
+            <tr><td><strong>Подозрительная активность</strong></td><td>Всплеск регистраций, неудачных платежей или банов</td></tr>
+            <tr><td><strong>Обнаружение ботов</strong></td><td>Боты в рекламных кампаниях (с настраиваемым порогом)</td></tr>
+            <tr><td><strong>Новый платёж</strong></td><td>Уведомление при каждом успешном платеже (опционально)</td></tr>
+            <tr><td><strong>Ежедневный отчёт</strong></td><td>Утренняя сводка: новые пользователи, доход, подписки</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Настраивается интервал между уведомлениями (cooldown в минутах). Есть кнопка отправки тестового уведомления.</p>
+
+      <h2 id="ai">ИИ-поддержка</h2>
+      <p>Интеграция с LLM для автоматических ответов в боте поддержки.</p>
+      <ul>
+        <li><strong>Включить/выключить</strong> — ИИ-ассистент в поддержке</li>
+        <li><strong>URL провайдера</strong> — OpenAI-совместимый API</li>
+        <li><strong>API-ключ</strong> — ключ доступа к LLM</li>
+        <li><strong>Модель</strong> — выбор модели (например, GPT-4)</li>
+        <li><strong>Температура</strong> — креативность ответов (0.0–1.0)</li>
+      </ul>
+
+      <h2 id="maintenance">Режим технических работ</h2>
+      <p>При включении режима тех. работ:</p>
+      <ul>
+        <li>Бот отвечает всем пользователям настраиваемым сообщением о технических работах</li>
+        <li>Mini App показывает страницу обслуживания</li>
+        <li>Администратор продолжает иметь доступ ко всем функциям</li>
+      </ul>
+
+      <h2 id="domain">Домен подписок</h2>
+      <p>Настройка отдельного домена для ссылок подписки (подробнее на странице <a href="keys.html#subscription-domain">Ключи и подписки</a>).</p>
+      <ul>
+        <li>Ввод и проверка DNS-записи домена</li>
+        <li>Автоматическая настройка Nginx и SSL-сертификата</li>
+        <li>Удаление кастомного домена</li>
+      </ul>
+
+      <h2 id="logs">Логи</h2>
+      <p>Журнал действий администратора и системных событий.</p>
+      <ul>
+        <li>Фильтрация по типу действия и типу сущности</li>
+        <li>Раскрытие деталей каждой записи</li>
+        <li>Пагинация (20 записей на странице)</li>
+      </ul>
+
+      <h2 id="database">База данных</h2>
+      <p>Инструменты для управления базой данных.</p>
+
+      <h3>Мониторинг</h3>
+      <ul>
+        <li>Статус подключения к базе данных</li>
+        <li>Ping и версия сервера</li>
+      </ul>
+
+      <h3>Миграция</h3>
+      <p>Мастер миграции данных с другого сервера:</p>
+      <ul>
+        <li>Подключение к исходной базе (хост, порт, имя, пароль, поддержка SSL)</li>
+        <li>Тест подключения перед миграцией</li>
+        <li>Запуск миграции с верификацией результатов</li>
+        <li>Подтверждение переключения на новую базу</li>
+      </ul>
+
+      <h3>Экспорт</h3>
+      <p>Выгрузка данных в CSV.</p>
 
     </div>
   </main>

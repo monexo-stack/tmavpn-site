@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram бот — TMAVPN Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="mobile-header">
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="mobile-title">Telegram бот</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TMAVPN <span>docs</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Обзор</div>
+        <a href="index.html" class="nav-link">О платформе</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Клиентская часть</div>
+        <a href="miniapp.html" class="nav-link">Mini App</a>
+        <a href="bot.html" class="nav-link active">Telegram бот</a>
+        <a href="bot.html#commands" class="nav-link nav-link-sub">Команды</a>
+        <a href="bot.html#notifications" class="nav-link nav-link-sub">Уведомления</a>
+        <a href="bot.html#referral" class="nav-link nav-link-sub">Реферальная система</a>
+        <a href="bot.html#support" class="nav-link nav-link-sub">Поддержка</a>
+        <a href="bot.html#admin" class="nav-link nav-link-sub">Админ-команды</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Админ-панель</div>
+        <a href="users.html" class="nav-link">Пользователи</a>
+        <a href="locations.html" class="nav-link">Локации и серверы</a>
+        <a href="keys.html" class="nav-link">Ключи и подписки</a>
+        <a href="payments.html" class="nav-link">Платежи</a>
+        <a href="promocodes.html" class="nav-link">Промокоды и рефералы</a>
+        <a href="broadcasts.html" class="nav-link">Рассылки</a>
+        <a href="settings.html" class="nav-link">Настройки</a>
+        <a href="tracking.html" class="nav-link">Трекинг</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1 class="page-title">Telegram бот</h1>
+      <p class="page-desc">Основной бот платформы: приветствие, уведомления о подписке, реферальная система. Отдельный бот поддержки: FAQ и обратная связь.</p>
+
+      <h2 id="commands">Команды основного бота</h2>
+
+      <h3>/start</h3>
+      <p>Первое взаимодействие пользователя с ботом. Команда выполняет:</p>
+      <ol>
+        <li>Проверяет, не заблокирован ли пользователь</li>
+        <li>Обрабатывает реферальную ссылку (если есть параметр ref_) или рекламную кампанию</li>
+        <li>Создаёт нового пользователя или обновляет данные существующего</li>
+        <li>Отправляет приветственное сообщение с кнопками</li>
+      </ol>
+
+      <p>Кнопки под приветственным сообщением:</p>
+      <ul>
+        <li><strong>Открыть приложение</strong> — открывает Mini App</li>
+        <li><strong>Поддержка</strong> — ссылка на бота поддержки</li>
+        <li><strong>Реферальная система</strong> — показывает информацию о реферальной программе</li>
+      </ul>
+
+      <div class="info-block">
+        <div class="info-block-title">Приветственное сообщение</div>
+        <p>Текст и кнопки приветствия полностью настраиваются через админ-панель (Settings → Bot). Поддерживается подстановка имени пользователя в текст.</p>
+      </div>
+
+      <h3>/help</h3>
+      <p>Показывает справочное сообщение с описанием возможностей бота.</p>
+
+      <h2 id="notifications">Уведомления о подписке</h2>
+      <p>Бот автоматически отправляет уведомления о состоянии подписки. Проверка выполняется каждые 30 минут.</p>
+
+      <h3>Пробный период</h3>
+      <p>Для пользователей с пробной подпиской, которые ещё не подключались к VPN:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Момент</th><th>Уведомление</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>1 день после активации</strong></td><td>Напоминание подключиться — «вы активировали пробный период, но ещё не подключились»</td></tr>
+            <tr><td><strong>3 дня после активации</strong></td><td>Повторное напоминание — «пробный период наполовину прошёл, а VPN не подключён»</td></tr>
+            <tr><td><strong>Последний день</strong></td><td>Предупреждение — «завтра пробный период закончится»</td></tr>
+            <tr><td><strong>После истечения</strong></td><td>Уведомление об отключении — «пробный период закончился, VPN отключён»</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Если пользователь подключался к VPN (использовал трафик), отправляется только уведомление в последний день.</p>
+
+      <h3>Платная подписка</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Момент</th><th>Уведомление</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>3 дня до конца</strong></td><td>«Подписка заканчивается через 3 дня»</td></tr>
+            <tr><td><strong>1 день до конца</strong></td><td>«Подписка заканчивается завтра»</td></tr>
+            <tr><td><strong>День истечения</strong></td><td>«Подписка истекла, VPN отключён»</td></tr>
+            <tr><td><strong>1–5 дней после</strong></td><td>«Прошло несколько дней, настройки сохранены»</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-block accent">
+        <div class="info-block-title">Защита от спама</div>
+        <p>Каждое уведомление отправляется ровно один раз — система запоминает последнее отправленное уведомление для каждого пользователя. Пропущенные пользователи и заблокировавшие бота автоматически пропускаются.</p>
+      </div>
+
+      <p>Каждое уведомление содержит кнопку действия: «Настроить VPN», «Выбрать тариф» или «Продлить подписку» — при нажатии открывается Mini App на нужной странице.</p>
+
+      <h2 id="referral">Реферальная система в боте</h2>
+
+      <h3>Как работает</h3>
+      <p>При нажатии кнопки «Реферальная система» бот показывает:</p>
+      <ul>
+        <li>Персональную реферальную ссылку пользователя</li>
+        <li>Количество приглашённых</li>
+        <li>Заработанные бонусные дни (в режиме дней) или баланс в рублях (в денежном режиме)</li>
+        <li>Описание условий программы с разбивкой бонусов по тарифам</li>
+      </ul>
+
+      <h3>Кнопки</h3>
+      <ul>
+        <li><strong>Поделиться с другом</strong> — открывает окно отправки реферальной ссылки контакту в Telegram</li>
+        <li><strong>Назад в меню</strong> — возвращает к приветственному сообщению</li>
+      </ul>
+
+      <h3>Уведомление о новом реферале</h3>
+      <p>Когда приглашённый пользователь регистрируется, пригласивший получает сообщение: «Отличные новости! [Имя] присоединился по вашей ссылке. Вы получите бонус, когда он оформит подписку.»</p>
+
+      <h2 id="support">Бот поддержки</h2>
+      <p>Отдельный бот для обработки обращений пользователей. Настраивается в Settings → Bot.</p>
+
+      <h3>FAQ-меню</h3>
+      <p>При запуске бота поддержки пользователь видит кнопки с частыми вопросами:</p>
+      <ul>
+        <li>Как подключиться</li>
+        <li>VPN не работает</li>
+        <li>Проблемы с оплатой</li>
+        <li>Поддерживаемые устройства</li>
+        <li>Низкая скорость</li>
+        <li>Моя подписка (показывает статус)</li>
+        <li>Связаться с поддержкой (начать диалог)</li>
+      </ul>
+
+      <h3>Рекомендуемые VPN-клиенты</h3>
+      <p>В FAQ «Поддерживаемые устройства» бот рекомендует:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Платформа</th><th>Клиент</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>iOS / macOS</strong></td><td>Streisand</td></tr>
+            <tr><td><strong>Android</strong></td><td>V2rayNG</td></tr>
+            <tr><td><strong>Windows</strong></td><td>V2rayN</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Mini App при установке рекомендует v2RayTun (iOS/Android/Windows/Linux) — оба варианта совместимы, так как платформа использует стандартный протокол VLESS.</p>
+
+      <h2 id="admin">Админ-команды в боте поддержки</h2>
+      <p>Администратор (указанный в настройках) имеет доступ к дополнительным командам в боте поддержки.</p>
+
+      <h3>/user</h3>
+      <p>Поиск пользователя по Telegram ID или @username. Показывает карточку с информацией:</p>
+      <ul>
+        <li>Telegram ID, username, полное имя</li>
+        <li>Статус подписки (активна/истекла/нет)</li>
+        <li>Название тарифа и дата окончания</li>
+        <li>Количество активных ключей</li>
+        <li>Статус бана и пробного периода</li>
+        <li>Дата регистрации</li>
+      </ul>
+      <p>Кнопки действий:</p>
+      <ul>
+        <li><strong>Забанить / Разбанить</strong></li>
+        <li><strong>+30 дней</strong> — продлить подписку</li>
+        <li><strong>Открыть в админке</strong> — ссылка на страницу пользователя в админ-панели</li>
+      </ul>
+
+      <h3>/stats</h3>
+      <p>Краткая статистика сервиса:</p>
+      <ul>
+        <li>Всего пользователей</li>
+        <li>Новых за сегодня</li>
+        <li>Активных подписок</li>
+        <li>Истекающих в ближайшие 3 дня</li>
+        <li>Платежей за сегодня</li>
+        <li>Доход за сегодня</li>
+      </ul>
+
+      <h3>/servers</h3>
+      <p>Статус всех серверов с индикаторами:</p>
+      <ul>
+        <li>Имя сервера, локация, IP-адрес</li>
+        <li>Статус: Online / Degraded / Offline / Disabled</li>
+      </ul>
+
+      <h2 id="auto-notifications">Автоматические уведомления администратору</h2>
+      <p>Администратор получает уведомления в бот поддержки при:</p>
+      <ul>
+        <li>Подозрительной активности (всплеск регистраций, неудачных платежей, банов)</li>
+        <li>Обнаружении ботов через рекламные кампании</li>
+        <li>Ежедневный отчёт (утром): новые пользователи, доход, подписки, истекающие подписки</li>
+      </ul>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
