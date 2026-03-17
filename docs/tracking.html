@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Трекинг и аналитика — TMAVPN Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="mobile-header">
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="mobile-title">Трекинг и аналитика</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TMAVPN <span>docs</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Обзор</div>
+        <a href="index.html" class="nav-link">О платформе</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Админ-панель</div>
+        <a href="users.html" class="nav-link">Пользователи</a>
+        <a href="locations.html" class="nav-link">Локации и серверы</a>
+        <a href="keys.html" class="nav-link">Ключи и подписки</a>
+        <a href="payments.html" class="nav-link">Платежи</a>
+        <a href="promocodes.html" class="nav-link">Промокоды и рефералы</a>
+        <a href="broadcasts.html" class="nav-link">Рассылки</a>
+        <a href="settings.html" class="nav-link">Настройки</a>
+        <a href="tracking.html" class="nav-link active">Трекинг</a>
+        <a href="tracking.html#campaigns" class="nav-link nav-link-sub">Рекламные кампании</a>
+        <a href="tracking.html#analytics" class="nav-link nav-link-sub">Аналитика</a>
+        <a href="tracking.html#dashboard" class="nav-link nav-link-sub">Дашборд</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1 class="page-title">Трекинг и аналитика</h1>
+      <p class="page-desc">Отслеживание рекламных кампаний, атрибуция пользователей, аналитика доходов и конверсии.</p>
+
+      <h2 id="campaigns">Рекламные кампании</h2>
+      <p>Трекинг позволяет создавать уникальные ссылки для каждого рекламного канала и отслеживать эффективность.</p>
+
+      <h3>Создание кампании</h3>
+      <p>При создании трекинг-ссылки указываются:</p>
+      <ul>
+        <li><strong>Название</strong> — отображаемое название кампании</li>
+        <li><strong>Идентификатор</strong> — уникальный slug, используется в URL</li>
+        <li><strong>Источник</strong> — откуда трафик: Telegram, сайт, реклама и др.</li>
+        <li><strong>Тип ссылки</strong> — на бота или на Mini App</li>
+      </ul>
+
+      <h3>Генерация URL</h3>
+      <p>URL формируется автоматически на основе типа ссылки. Для бота — ссылка на Telegram-бота с параметром кампании. Для Mini App — ссылка на приложение с параметром кампании. Готовую ссылку можно скопировать в один клик.</p>
+
+      <h3>Как работает атрибуция</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Пользователь переходит по трекинг-ссылке</div>
+          <div class="step-desc">Счётчик кликов увеличивается. Пользователь попадает в бота или Mini App.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">При регистрации сохраняется кампания</div>
+          <div class="step-desc">Кампания привязывается к профилю пользователя. Связь сохраняется навсегда.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Все действия пользователя атрибуцируются к кампании</div>
+          <div class="step-desc">Регистрация, покупка подписки, доход — всё привязывается к исходной кампании для расчёта конверсии и ROI.</div>
+        </div>
+      </div>
+
+      <h3>Метрики кампании</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Метрика</th><th>Описание</th><th>Формула</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Clicks</strong></td><td>Количество переходов по ссылке</td><td>—</td></tr>
+            <tr><td><strong>Registrations</strong></td><td>Зарегистрированные пользователи</td><td>—</td></tr>
+            <tr><td><strong>Conversions</strong></td><td>Пользователи с оплаченной подпиской</td><td>—</td></tr>
+            <tr><td><strong>Revenue</strong></td><td>Суммарный доход от пользователей кампании</td><td>—</td></tr>
+            <tr><td><strong>CTR</strong></td><td>Click-Through Rate</td><td>(registrations / clicks) × 100%</td></tr>
+            <tr><td><strong>Conversion Rate</strong></td><td>Процент конверсии</td><td>(conversions / registrations) × 100%</td></tr>
+            <tr><td><strong>CPA</strong></td><td>Cost Per Action</td><td>revenue / conversions</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Автоматические алерты</h3>
+      <p>Система автоматически предупреждает о проблемных кампаниях:</p>
+      <ul>
+        <li><strong>Низкая конверсия</strong> — менее 5% при 10+ регистрациях</li>
+        <li><strong>Низкий CTR</strong> — менее 5% при 20+ кликах</li>
+        <li><strong>Подозрение на ботов</strong> — более 3 аккаунтов с высокой оценкой бота (50+)</li>
+      </ul>
+
+      <h3>Детальная информация по пользователям кампании</h3>
+      <p>Для каждой кампании доступен список пользователей с метриками:</p>
+      <ul>
+        <li>Username, полное имя, Telegram ID</li>
+        <li>Статус подписки и текущий тариф</li>
+        <li>Доход от пользователя</li>
+        <li>Время до первой покупки</li>
+        <li>Использованный трафик</li>
+        <li>Количество активных устройств</li>
+        <li>Bot score и флаг подозрительной активности</li>
+        <li>Оценка возраста Telegram-аккаунта (по диапазону ID)</li>
+      </ul>
+
+      <h3>Оценка возраста аккаунта</h3>
+      <p>Система оценивает примерный возраст Telegram-аккаунта по диапазону ID:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Диапазон ID</th><th>Примерный год регистрации</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>&lt; 100M</td><td>2013–2014</td></tr>
+            <tr><td>100M – 300M</td><td>2015–2016</td></tr>
+            <tr><td>300M – 500M</td><td>2017–2018</td></tr>
+            <tr><td>500M – 1B</td><td>2018–2020</td></tr>
+            <tr><td>1B – 2B</td><td>2020–2021</td></tr>
+            <tr><td>2B – 4B</td><td>2021–2022</td></tr>
+            <tr><td>4B – 6B</td><td>2022–2023</td></tr>
+            <tr><td>6B – 7B</td><td>2023–2024</td></tr>
+            <tr><td>&ge; 7B</td><td>2024+</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">Массовый бан ботов</div>
+        <p>Для каждой кампании доступна функция <strong>Ban Bots</strong> — массовый бан пользователей с высокой оценкой бота. Порог задаётся при запуске (по умолчанию 50+).</p>
+      </div>
+
+      <h2 id="analytics">Аналитика</h2>
+      <p>Раздел аналитики на дашборде предоставляет ключевые бизнес-метрики.</p>
+
+      <h3>Ключевые показатели</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Метрика</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Total Users</strong></td><td>Общее количество зарегистрированных пользователей</td></tr>
+            <tr><td><strong>Paying Users</strong></td><td>Пользователи с активной оплаченной подпиской (без trial)</td></tr>
+            <tr><td><strong>Active Trial</strong></td><td>Пользователи на пробном периоде</td></tr>
+            <tr><td><strong>Total Revenue</strong></td><td>Суммарный доход за всё время</td></tr>
+            <tr><td><strong>Revenue 7d / 30d</strong></td><td>Доход за последние 7 и 30 дней</td></tr>
+            <tr><td><strong>Average Check</strong></td><td>Средний размер платежа</td></tr>
+            <tr><td><strong>ARPU</strong></td><td>Средний доход на пользователя (все пользователи)</td></tr>
+            <tr><td><strong>ARPPU</strong></td><td>Средний доход на платящего пользователя</td></tr>
+            <tr><td><strong>MRR</strong></td><td>Monthly Recurring Revenue (средний за 30 дней)</td></tr>
+            <tr><td><strong>ARR</strong></td><td>Annual Recurring Revenue (MRR × 12)</td></tr>
+            <tr><td><strong>Trial Conversion</strong></td><td>Процент конверсии из trial в платную подписку</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="dashboard">Дашборд</h2>
+      <p>Интерактивный график дохода с тремя режимами просмотра.</p>
+
+      <h3>Режимы графика</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Режим</th><th>Точек</th><th>Описание</th><th>Кэширование</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Hour</strong></td><td>24</td><td>Почасовая разбивка за последние 24 часа</td><td>10 сек</td></tr>
+            <tr><td><strong>Day</strong></td><td>30</td><td>Ежедневная за последние 30 дней</td><td>30 сек</td></tr>
+            <tr><td><strong>Month</strong></td><td>12</td><td>Помесячная за последние 12 месяцев</td><td>60 сек</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Данные на графике</h3>
+      <p>Для каждой точки графика отображаются:</p>
+      <ul>
+        <li><strong>Регистрации</strong> — новые пользователи за период</li>
+        <li><strong>Платные подписки</strong> — новые оплаченные подписки</li>
+        <li><strong>Trial-активации</strong> — активации пробного периода</li>
+        <li><strong>Доход</strong> — сумма успешных платежей в рублях</li>
+      </ul>
+
+      <p>График обновляется в реальном времени через WebSocket — при новом платеже данные обновляются автоматически. Навигация по периодам через кнопки «Назад/Вперёд» или прокрутку колеса мыши.</p>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

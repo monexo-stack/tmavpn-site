@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Настройки — TMAVPN Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="mobile-header">
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="mobile-title">Настройки</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TMAVPN <span>docs</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Обзор</div>
+        <a href="index.html" class="nav-link">О платформе</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Админ-панель</div>
+        <a href="users.html" class="nav-link">Пользователи</a>
+        <a href="locations.html" class="nav-link">Локации и серверы</a>
+        <a href="keys.html" class="nav-link">Ключи и подписки</a>
+        <a href="payments.html" class="nav-link">Платежи</a>
+        <a href="promocodes.html" class="nav-link">Промокоды и рефералы</a>
+        <a href="broadcasts.html" class="nav-link">Рассылки</a>
+        <a href="settings.html" class="nav-link active">Настройки</a>
+        <a href="settings.html#bot" class="nav-link nav-link-sub">Бот</a>
+        <a href="settings.html#payments-config" class="nav-link nav-link-sub">Платёжные системы</a>
+        <a href="settings.html#subscriptions" class="nav-link nav-link-sub">Подписки</a>
+        <a href="settings.html#theme" class="nav-link nav-link-sub">Тема Mini App</a>
+        <a href="settings.html#texts" class="nav-link nav-link-sub">Тексты</a>
+        <a href="settings.html#stickers" class="nav-link nav-link-sub">Стикеры</a>
+        <a href="tracking.html" class="nav-link">Трекинг</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1 class="page-title">Настройки</h1>
+      <p class="page-desc">Централизованная конфигурация платформы: бот, платёжные системы, тарифы, тема Mini App, тексты и стикеры.</p>
+
+      <p>Все настройки управляются через админ-панель. При изменении настроек кэш сбрасывается автоматически.</p>
+
+      <div class="info-block warning">
+        <div class="info-block-title">Безопасность</div>
+        <p>Чувствительные данные (токены, ключи, пароли) скрыты в интерфейсе. При сохранении без изменения значения оригинальные данные не перезаписываются.</p>
+      </div>
+
+      <h2 id="bot">Настройки бота</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Параметр</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Имя бота</strong></td><td>Отображаемое имя бота</td></tr>
+            <tr><td><strong>Токен бота</strong></td><td>Токен Telegram Bot API. При изменении бот автоматически перезапускается</td></tr>
+            <tr><td><strong>Username бота</strong></td><td>Username бота (извлекается автоматически из токена)</td></tr>
+            <tr><td><strong>Telegram ID администратора</strong></td><td>Используется для уведомлений</td></tr>
+            <tr><td><strong>Короткое имя Mini App</strong></td><td>Короткое имя для формирования ссылок на приложение</td></tr>
+            <tr><td><strong>Домен</strong></td><td>Домен развёртывания (только чтение)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Поддержка</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Параметр</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Тип поддержки</strong></td><td>Через отдельного бота или через личный аккаунт</td></tr>
+            <tr><td><strong>Токен бота поддержки</strong></td><td>Токен бота поддержки (при типе «бот»). Перезапускается при изменении</td></tr>
+            <tr><td><strong>Username поддержки</strong></td><td>Username для личной поддержки (при типе «личный аккаунт»)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="payments-config">Платёжные системы</h2>
+      <p>Для каждой платёжной системы настраиваются учётные данные и включается/выключается приём платежей.</p>
+
+      <h3>YooKassa</h3>
+      <ul>
+        <li>Включение/выключение приёма платежей</li>
+        <li>ID магазина</li>
+        <li>Секретный ключ</li>
+        <li>Email для чека (опционально)</li>
+      </ul>
+
+      <h3>CryptoBot</h3>
+      <ul>
+        <li>Включение/выключение приёма платежей</li>
+        <li>API-токен от @CryptoBot</li>
+        <li>Использование тестовой сети</li>
+      </ul>
+
+      <h3>Telegram Stars</h3>
+      <ul>
+        <li>Включение/выключение (по умолчанию включён)</li>
+        <li>Курс конвертации рублей в Stars (настраивается)</li>
+      </ul>
+
+      <h3>YooMoney</h3>
+      <ul>
+        <li>Включение/выключение приёма платежей</li>
+        <li>OAuth-токен</li>
+        <li>Номер кошелька</li>
+      </ul>
+
+      <h3>FreeKassa</h3>
+      <ul>
+        <li>Включение/выключение приёма платежей</li>
+        <li>ID мерчанта</li>
+        <li>Секретное слово для формы оплаты</li>
+        <li>Секретное слово для вебхуков</li>
+        <li>API-ключ для выплат</li>
+      </ul>
+
+      <h3>Дополнительно</h3>
+      <ul>
+        <li>Доплата за дополнительное устройство (настраивается)</li>
+        <li>Тестовый режим платежей (отключает валидацию полей)</li>
+      </ul>
+
+      <h2 id="subscriptions">Настройки подписок</h2>
+      <p>Тарифные планы настраиваются в разделе Subscriptions. Каждый план можно изменить или отключить.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Поле плана</th><th>Описание</th><th>Ограничения</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Название</strong></td><td>Отображаемое название</td><td>—</td></tr>
+            <tr><td><strong>Цена</strong></td><td>Цена в рублях</td><td>Минимум 10 ₽ (кроме trial)</td></tr>
+            <tr><td><strong>Длительность</strong></td><td>Длительность в днях</td><td>Минимум 1 день</td></tr>
+            <tr><td><strong>Лимит устройств</strong></td><td>Лимит одновременных устройств</td><td>0 = без ограничений</td></tr>
+            <tr><td><strong>Активен</strong></td><td>Показывать в Mini App</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Фискальные чеки (Мой Налог)</h3>
+      <p>Платформа поддерживает автоматическую генерацию фискальных чеков:</p>
+      <ul>
+        <li>Включение/выключение генерации чеков</li>
+        <li>Автоматическая отправка чека пользователю</li>
+        <li>Настраиваемое название услуги в чеке</li>
+      </ul>
+
+      <h2 id="theme">Тема Mini App</h2>
+      <p>Полная кастомизация внешнего вида клиентского приложения без изменения кода.</p>
+
+      <h3>Цветовая схема</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Параметр</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Основной цвет</strong></td><td>Кнопки, ссылки, акценты — настраивается</td></tr>
+            <tr><td><strong>Тёмный вариант основного цвета</strong></td><td>Рассчитывается автоматически или задаётся вручную</td></tr>
+            <tr><td><strong>Цвет успеха</strong></td><td>Для индикаторов успешных действий — настраивается</td></tr>
+            <tr><td><strong>Цвет ошибки</strong></td><td>Для индикаторов ошибок — настраивается</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Фоновые градиенты</h3>
+      <p>Предустановленные варианты фонов для тёмной и светлой темы Telegram. Категории:</p>
+      <ul>
+        <li><strong>Градиенты</strong> — плавные переходы между цветами</li>
+        <li><strong>Сплошные цвета</strong> — однотонные фоны</li>
+      </ul>
+      <p>Настраиваются отдельно для фона страницы и шапки, в тёмном и светлом режиме.</p>
+
+      <h2 id="texts">Кастомизация текстов</h2>
+
+      <h3>Приветственное сообщение бота</h3>
+      <p>HTML-сообщение, которое пользователь видит при первом запуске бота. Поддерживает подстановку имени пользователя.</p>
+
+      <h3>Кнопки бота</h3>
+      <p>Для каждой кнопки в Telegram-боте настраиваются текст, эмодзи и стиль отображения:</p>
+      <ul>
+        <li><strong>Открыть приложение</strong> — текст, эмодзи, стиль</li>
+        <li><strong>Поддержка</strong> — текст, эмодзи, стиль</li>
+        <li><strong>Реферальная ссылка</strong> — текст, эмодзи</li>
+        <li><strong>Поделиться</strong> — текст, эмодзи</li>
+      </ul>
+
+      <h3>Текст для шаринга</h3>
+      <p>Сообщение, которое пользователь отправляет при нажатии кнопки «Поделиться».</p>
+
+      <h3>Тексты Mini App</h3>
+      <p>Тексты интерфейса настраиваются через админ-панель. Тексты организованы по группам (страницы, компоненты). Сохраняются только изменённые значения — для остальных используются значения по умолчанию.</p>
+
+      <h2 id="stickers">Стикеры</h2>
+      <p>Анимированные стикеры (Lottie) используются на страницах Mini App для визуального оформления.</p>
+
+      <h3>Настраиваемые стикеры</h3>
+      <p>Стикеры можно задать для следующих разделов:</p>
+      <ul>
+        <li><strong>Главная страница</strong> — приветственный стикер</li>
+        <li><strong>Страница оплаты</strong></li>
+        <li><strong>Страница настройки VPN</strong></li>
+      </ul>
+
+      <h3>Загрузка стикеров</h3>
+      <ul>
+        <li><strong>Форматы</strong>: TGS (Telegram Animated Sticker), PNG, JPG, GIF, WEBP</li>
+        <li><strong>TGS-файлы</strong> автоматически распаковываются в Lottie JSON при загрузке</li>
+        <li><strong>Максимальный размер</strong>: 5 МБ</li>
+        <li><strong>Тип Hero</strong>: встроенная анимация или загруженный стикер</li>
+      </ul>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

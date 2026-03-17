@@ -40,6 +40,11 @@
         <a href="locations.html#balancing" class="nav-link nav-link-sub">Балансировка</a>
         <a href="locations.html#add-server" class="nav-link nav-link-sub">Добавление сервера</a>
         <a href="keys.html" class="nav-link">Ключи и подписки</a>
+        <a href="payments.html" class="nav-link">Платежи</a>
+        <a href="promocodes.html" class="nav-link">Промокоды и рефералы</a>
+        <a href="broadcasts.html" class="nav-link">Рассылки</a>
+        <a href="settings.html" class="nav-link">Настройки</a>
+        <a href="tracking.html" class="nav-link">Трекинг</a>
       </div>
     </nav>
   </aside>
@@ -60,19 +65,7 @@
       <h2 id="locations">Локации</h2>
 
       <h3>Данные локации</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Поле</th><th>Описание</th></tr></thead>
-          <tbody>
-            <tr><td><code>name</code></td><td>Название локации (отображается в Mini App и VPN-клиенте)</td></tr>
-            <tr><td><code>country</code></td><td>Страна</td></tr>
-            <tr><td><code>country_code</code></td><td>ISO код страны (NL, DE, US)</td></tr>
-            <tr><td><code>flag</code></td><td>Флаг страны</td></tr>
-            <tr><td><code>status</code></td><td>online / offline / maintenance</td></tr>
-            <tr><td><code>traffic_limit_gb</code></td><td>Лимит трафика на пользователя (NULL = безлимит)</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <p>Для каждой локации хранятся: название (отображается в Mini App и VPN-клиенте), страна и код страны (ISO), флаг, статус (online / offline / maintenance) и лимит трафика на пользователя (при необходимости).</p>
 
       <h3>Действия с локацией</h3>
       <ul>
@@ -87,21 +80,7 @@
       <h2 id="servers">Серверы</h2>
 
       <h3>Данные сервера</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Поле</th><th>Описание</th></tr></thead>
-          <tbody>
-            <tr><td><code>name</code></td><td>Имя сервера (авто: NL-1, DE-2). Генерируется как КОД_СТРАНЫ-НОМЕР</td></tr>
-            <tr><td><code>ip</code></td><td>IP-адрес сервера (уникальный)</td></tr>
-            <tr><td><code>status</code></td><td>online / offline / degraded / maintenance</td></tr>
-            <tr><td><code>max_space</code></td><td>Максимальная вместимость (рекомендуется по результатам speedtest)</td></tr>
-            <tr><td><code>current_users</code></td><td>Текущее количество активных пользователей</td></tr>
-            <tr><td><code>bandwidth</code></td><td>Скорость канала (из speedtest)</td></tr>
-            <tr><td><code>x3ui_url</code></td><td>URL панели 3x-ui</td></tr>
-            <tr><td><code>x3ui_connected</code></td><td>Статус подключения к панели</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <p>Для каждого сервера хранятся: имя (генерируется автоматически, например NL-1, DE-2), IP-адрес (уникальный), статус (online / offline / degraded / maintenance), максимальная вместимость (рассчитывается по результатам speedtest), текущее количество активных пользователей и скорость канала.</p>
 
       <h3>Статусы серверов</h3>
       <div class="table-wrap">
@@ -225,7 +204,7 @@
         </div>
       </div>
 
-      <p>Провижининг обрабатывает пользователей пачками по 10, с задержкой 0.1 секунды между ключами и 0.5 секунды между пачками для снижения нагрузки на 3x-ui.</p>
+      <p>Провижининг обрабатывает пользователей пачками с оптимальными задержками для снижения нагрузки на серверы.</p>
 
       <h2 id="balancing">Балансировка нагрузки</h2>
 
@@ -282,12 +261,10 @@
       </div>
 
       <h3>Расчёт вместимости</h3>
-      <p>Рекомендуемое количество пользователей рассчитывается по формуле на основе speedtest:</p>
-      <pre><code>рекомендуемых пользователей = (скорость_mbps × 0.75) / (8 mbps × 0.15)</code></pre>
-      <p>Где 8 Mbps — средняя скорость на одного пользователя, 0.15 — коэффициент одновременных подключений, 0.75 — запас по каналу.</p>
+      <p>Рекомендуемое количество пользователей рассчитывается автоматически на основе результатов speedtest с учётом средней скорости на пользователя, коэффициента одновременных подключений и запаса по каналу.</p>
 
       <div class="info-block">
-        <p><strong>Пример:</strong> Speedtest показал 500 Mbps. Рекомендуемая вместимость: (500 × 0.75) / (8 × 0.15) = 312 пользователей.</p>
+        <p><strong>Пример:</strong> Speedtest показал 500 Mbps — система рассчитала рекомендуемую вместимость около 300 пользователей.</p>
       </div>
 
     </div>

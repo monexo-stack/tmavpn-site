@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Рассылки — TMAVPN Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="mobile-header">
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="mobile-title">Рассылки</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TMAVPN <span>docs</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Обзор</div>
+        <a href="index.html" class="nav-link">О платформе</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Админ-панель</div>
+        <a href="users.html" class="nav-link">Пользователи</a>
+        <a href="locations.html" class="nav-link">Локации и серверы</a>
+        <a href="keys.html" class="nav-link">Ключи и подписки</a>
+        <a href="payments.html" class="nav-link">Платежи</a>
+        <a href="promocodes.html" class="nav-link">Промокоды и рефералы</a>
+        <a href="broadcasts.html" class="nav-link active">Рассылки</a>
+        <a href="broadcasts.html#create" class="nav-link nav-link-sub">Создание рассылки</a>
+        <a href="broadcasts.html#audience" class="nav-link nav-link-sub">Аудитория</a>
+        <a href="broadcasts.html#sending" class="nav-link nav-link-sub">Процесс отправки</a>
+        <a href="settings.html" class="nav-link">Настройки</a>
+        <a href="tracking.html" class="nav-link">Трекинг</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1 class="page-title">Рассылки</h1>
+      <p class="page-desc">Массовая отправка сообщений пользователям через Telegram-бота. Поддержка фильтров аудитории, изображений, отложенной отправки и прогресса в реальном времени.</p>
+
+      <h2 id="create">Создание рассылки</h2>
+      <p>Рассылка создаётся в разделе <strong>Broadcasts</strong> админ-панели через модальное окно.</p>
+
+      <h3>Параметры рассылки</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Параметр</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Аудитория</strong></td><td>Фильтр получателей (подробнее ниже)</td></tr>
+            <tr><td><strong>Текст сообщения</strong></td><td>Поддержка HTML-тегов: <code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;code&gt;</code></td></tr>
+            <tr><td><strong>Изображение</strong></td><td>JPG, PNG, GIF, WEBP до 10 МБ. Загружается через drag-and-drop или выбор файла</td></tr>
+            <tr><td><strong>Время отправки</strong></td><td>Немедленно или по расписанию (datetime picker)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Перед отправкой система показывает предварительный подсчёт получателей.</p>
+
+      <h2 id="audience">Фильтры аудитории</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Фильтр</th><th>Кого выберет</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Все пользователи</strong></td>
+              <td>Все зарегистрированные (исключая забаненных и заблокировавших бота)</td>
+            </tr>
+            <tr>
+              <td><strong>С активной подпиской</strong></td>
+              <td>Пользователи с оплаченной подпиской (subscription_expires_at &gt; сейчас)</td>
+            </tr>
+            <tr>
+              <td><strong>Без подписки</strong></td>
+              <td>Пользователи без активной подписки</td>
+            </tr>
+            <tr>
+              <td><strong>Подписка истекает</strong></td>
+              <td>Подписка заканчивается в ближайшие 7 дней (исключая trial)</td>
+            </tr>
+            <tr>
+              <td><strong>Конкретный пользователь</strong></td>
+              <td>Один пользователь по Telegram ID (с поиском)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="statuses">Статусы рассылки</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Статус</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="badge badge-gray">draft</span></td><td>Черновик, ещё не отправлялась</td></tr>
+            <tr><td><span class="badge badge-blue">scheduled</span></td><td>Запланирована на определённое время</td></tr>
+            <tr><td><span class="badge badge-orange">sending</span></td><td>Идёт отправка сообщений</td></tr>
+            <tr><td><span class="badge badge-green">completed</span></td><td>Отправка завершена</td></tr>
+            <tr><td><span class="badge badge-red">failed</span></td><td>Ошибка при отправке</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="sending">Процесс отправки</h2>
+      <p>Рассылка использует высокопроизводительный механизм с адаптивным rate limiting.</p>
+
+      <h3>Технические характеристики</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Параметр</th><th>Значение</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Параллельные воркеры</strong></td><td>5 одновременных потоков отправки</td></tr>
+            <tr><td><strong>Скорость</strong></td><td>20–28 сообщений/сек (адаптивная)</td></tr>
+            <tr><td><strong>Задержка между сообщениями</strong></td><td>35–1000 мс (авто-увеличивается при rate limit)</td></tr>
+            <tr><td><strong>Размер батча</strong></td><td>1000 пользователей</td></tr>
+            <tr><td><strong>Повторные попытки</strong></td><td>До 2 на каждого пользователя с паузой 5 сек</td></tr>
+            <tr><td><strong>Обновление прогресса</strong></td><td>Каждые 100 сообщений</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Прогресс отправки</h3>
+      <p>Во время отправки админ-панель показывает:</p>
+      <ul>
+        <li><strong>Прогресс</strong> — процент завершения (sent + failed + blocked) / total</li>
+        <li><strong>Скорость</strong> — сообщений в секунду</li>
+        <li><strong>ETA</strong> — оставшееся время (в минутах)</li>
+        <li><strong>Sent</strong> — успешно доставлено</li>
+        <li><strong>Failed</strong> — ошибки доставки</li>
+        <li><strong>Blocked</strong> — пользователь заблокировал бота</li>
+      </ul>
+
+      <div class="info-block">
+        <div class="info-block-title">Возобновление отправки</div>
+        <p>Если рассылка была прервана (перезагрузка сервера, ошибка), её можно возобновить. Система пропустит пользователей, которым уже было отправлено сообщение (проверка по <code>broadcast_logs</code>).</p>
+      </div>
+
+      <h3>Управление рассылками</h3>
+      <ul>
+        <li><strong>Отправить</strong> — запустить отправку черновика или запланированной рассылки</li>
+        <li><strong>Остановить</strong> — приостановить текущую рассылку</li>
+        <li><strong>Возобновить</strong> — продолжить прерванную рассылку</li>
+        <li><strong>Удалить</strong> — удалить черновик или запланированную рассылку</li>
+        <li><strong>Логи</strong> — посмотреть детальные логи доставки для каждого пользователя</li>
+      </ul>
+
+      <h2 id="table">Таблица рассылок</h2>
+      <p>В разделе Broadcasts отображается список всех рассылок с информацией:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Колонка</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>ID</strong></td><td>Номер рассылки</td></tr>
+            <tr><td><strong>Audience</strong></td><td>Тип фильтра аудитории</td></tr>
+            <tr><td><strong>Message</strong></td><td>Превью текста сообщения</td></tr>
+            <tr><td><strong>Status</strong></td><td>Текущий статус (badge с цветом)</td></tr>
+            <tr><td><strong>Recipients</strong></td><td>Общее число получателей</td></tr>
+            <tr><td><strong>Sent / Failed</strong></td><td>Количество доставленных и ошибочных</td></tr>
+            <tr><td><strong>Date</strong></td><td>Дата создания или отправки</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Таблица автоматически обновляется каждые 30 секунд.</p>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

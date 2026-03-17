@@ -39,6 +39,11 @@
         <a href="users.html#bot-detection" class="nav-link nav-link-sub">Обнаружение ботов</a>
         <a href="locations.html" class="nav-link">Локации и серверы</a>
         <a href="keys.html" class="nav-link">Ключи и подписки</a>
+        <a href="payments.html" class="nav-link">Платежи</a>
+        <a href="promocodes.html" class="nav-link">Промокоды и рефералы</a>
+        <a href="broadcasts.html" class="nav-link">Рассылки</a>
+        <a href="settings.html" class="nav-link">Настройки</a>
+        <a href="tracking.html" class="nav-link">Трекинг</a>
       </div>
     </nav>
   </aside>
@@ -235,33 +240,6 @@
         <li><strong>Подтвердить как бота</strong> — устанавливает Score = 100, банит пользователя и отключает все ключи</li>
         <li><strong>Фильтр по Score</strong> — в таблице пользователей можно отфильтровать ботов (50+) и подозрительных (25+)</li>
       </ul>
-
-      <h2 id="data-model">Данные пользователя</h2>
-      <p>Полный список данных, хранящихся для каждого пользователя:</p>
-
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Поле</th><th>Описание</th></tr></thead>
-          <tbody>
-            <tr><td><code>tgid</code></td><td>Telegram ID — уникальный идентификатор</td></tr>
-            <tr><td><code>username</code></td><td>Telegram @username</td></tr>
-            <tr><td><code>fullname</code></td><td>Полное имя в Telegram</td></tr>
-            <tr><td><code>lang</code></td><td>Язык (по умолчанию ru)</td></tr>
-            <tr><td><code>subscription_token</code></td><td>Постоянный токен подписки (не меняется)</td></tr>
-            <tr><td><code>subscription_expires_at</code></td><td>Дата окончания подписки</td></tr>
-            <tr><td><code>current_plan_id</code></td><td>Текущий тариф (trial, 1month, 3months, 6months, 1year)</td></tr>
-            <tr><td><code>device_limit</code></td><td>Лимит устройств (0 = без ограничений)</td></tr>
-            <tr><td><code>total_traffic</code></td><td>Суммарный трафик по всем серверам (байт)</td></tr>
-            <tr><td><code>referral_user_tgid</code></td><td>Кто привёл этого пользователя</td></tr>
-            <tr><td><code>source</code></td><td>Источник: organic, referral, ad</td></tr>
-            <tr><td><code>ad_campaign</code></td><td>Рекламная кампания (если пришёл по UTM)</td></tr>
-            <tr><td><code>bot_score</code></td><td>Оценка бота (0-100)</td></tr>
-            <tr><td><code>banned</code></td><td>Заблокирован ли</td></tr>
-            <tr><td><code>created_at</code></td><td>Дата регистрации</td></tr>
-            <tr><td><code>last_active</code></td><td>Последняя активность</td></tr>
-          </tbody>
-        </table>
-      </div>
 
     </div>
   </main>

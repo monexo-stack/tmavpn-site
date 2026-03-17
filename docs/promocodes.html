@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Промокоды и рефералы — TMAVPN Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="mobile-header">
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <span class="mobile-title">Промокоды и рефералы</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">TMAVPN <span>docs</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Обзор</div>
+        <a href="index.html" class="nav-link">О платформе</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Админ-панель</div>
+        <a href="users.html" class="nav-link">Пользователи</a>
+        <a href="locations.html" class="nav-link">Локации и серверы</a>
+        <a href="keys.html" class="nav-link">Ключи и подписки</a>
+        <a href="payments.html" class="nav-link">Платежи</a>
+        <a href="promocodes.html" class="nav-link active">Промокоды и рефералы</a>
+        <a href="promocodes.html#promocodes" class="nav-link nav-link-sub">Промокоды</a>
+        <a href="promocodes.html#referrals" class="nav-link nav-link-sub">Реферальная система</a>
+        <a href="promocodes.html#withdrawals" class="nav-link nav-link-sub">Выплаты</a>
+        <a href="broadcasts.html" class="nav-link">Рассылки</a>
+        <a href="settings.html" class="nav-link">Настройки</a>
+        <a href="tracking.html" class="nav-link">Трекинг</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <h1 class="page-title">Промокоды и рефералы</h1>
+      <p class="page-desc">Два механизма привлечения и удержания: промокоды со скидками и реферальная программа с двумя режимами вознаграждения.</p>
+
+      <h2 id="promocodes">Промокоды</h2>
+      <p>Промокоды дают скидку на покупку подписки. Поддерживаются два типа скидок: процентная и фиксированная.</p>
+
+      <h3>Типы скидок</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Тип</th><th>Поле</th><th>Пример</th><th>Расчёт</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Процентная</strong></td>
+              <td><code>percent</code> (1–100)</td>
+              <td>Промокод SALE20 с 20%</td>
+              <td>Скидка = цена × 20 / 100</td>
+            </tr>
+            <tr>
+              <td><strong>Фиксированная</strong></td>
+              <td><code>amount</code> (в рублях)</td>
+              <td>Промокод GIFT50 на 50 ₽</td>
+              <td>Скидка = min(50, цена)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Параметры промокода</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Поле</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>text</strong></td><td>Текст промокода (автоматически переводится в верхний регистр)</td></tr>
+            <tr><td><strong>discount_type</strong></td><td><code>percentage</code> или <code>fixed</code></td></tr>
+            <tr><td><strong>percent</strong></td><td>Процент скидки (для типа percentage)</td></tr>
+            <tr><td><strong>amount</strong></td><td>Фиксированная сумма скидки в рублях (для типа fixed)</td></tr>
+            <tr><td><strong>max_uses</strong></td><td>Максимальное количество использований (null = без ограничений)</td></tr>
+            <tr><td><strong>expires_at</strong></td><td>Дата истечения (null = бессрочный)</td></tr>
+            <tr><td><strong>active</strong></td><td>Включён/выключен</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Ограничения</h3>
+      <ul>
+        <li>Один пользователь может использовать один промокод только один раз</li>
+        <li>Промокод проверяется при создании платежа — если невалиден, платёж создаётся без скидки</li>
+        <li>При использовании в платеже сохраняется информация о промокоде и размере скидки</li>
+      </ul>
+
+      <h3>Статусы промокода</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Статус</th><th>Условие</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="badge badge-green">active</span></td><td>Включён, не истёк, лимит не достигнут</td></tr>
+            <tr><td><span class="badge badge-red">expired</span></td><td>Истёк срок действия или исчерпан лимит использований</td></tr>
+            <tr><td><span class="badge badge-gray">disabled</span></td><td>Отключён администратором</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Управление в админке</h3>
+      <p>Раздел <strong>Promocodes</strong> в админ-панели:</p>
+      <ul>
+        <li><strong>Создание</strong> — текст, тип скидки, значение, лимит, дата истечения</li>
+        <li><strong>Включение/отключение</strong> — через переключатель в таблице</li>
+        <li><strong>Удаление</strong> — каскадно удаляет записи использования, обнуляет ссылку в платежах</li>
+        <li><strong>Статистика</strong> — количество использований, общая сумма скидок</li>
+      </ul>
+
+      <h2 id="referrals">Реферальная система</h2>
+      <p>Каждый пользователь может приглашать других через реферальную ссылку. Система поддерживает два режима вознаграждения.</p>
+
+      <h3>Режимы реферальной программы</h3>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-title">Бонусные дни (days)</div>
+          <div class="feature-card-desc">Партнёр получает дополнительные дни подписки за каждого приглашённого. Режим по умолчанию. Дни автоматически добавляются к подписке партнёра.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-title">Денежное вознаграждение (money)</div>
+          <div class="feature-card-desc">Партнёр получает процент от каждой оплаты приглашённого пользователя. Накопленный баланс можно вывести через FreeKassa.</div>
+        </div>
+      </div>
+
+      <h3>Как работают бонусные дни</h3>
+
+      <p><strong>Бонус за приглашение (invite)</strong> — начисляется однократно, когда приглашённый активирует пробный период и использует минимум 3 МБ трафика.</p>
+
+      <p><strong>Бонус за покупку (purchase)</strong> — начисляется при каждой оплате приглашённым пользователем. Количество дней зависит от тарифа:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Тариф приглашённого</th><th>Дней партнёру</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1 месяц</td><td>5</td></tr>
+            <tr><td>3 месяца</td><td>10</td></tr>
+            <tr><td>6 месяцев</td><td>15</td></tr>
+            <tr><td>1 год</td><td>20</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-title">Автоматическое применение</div>
+        <p>Бонусные дни автоматически добавляются к подписке партнёра, если она активна. Если подписка неактивна — дни сохраняются как «ожидающие» и могут быть применены позже.</p>
+      </div>
+
+      <h3>Жизненный цикл реферала</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Пользователь делится реферальной ссылкой</div>
+          <div class="step-desc">В Mini App есть кнопка «Пригласить друга», которая генерирует ссылку вида <code>t.me/bot?start=ref_XXXXX</code>.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Приглашённый регистрируется</div>
+          <div class="step-desc">При регистрации в поле <code>referral_user_tgid</code> сохраняется ID пригласившего. Связь устанавливается навсегда.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Приглашённый активирует trial</div>
+          <div class="step-desc">После активации пробного периода и использования 3+ МБ трафика — партнёру начисляется бонус за приглашение (однократно).</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Приглашённый оплачивает подписку</div>
+          <div class="step-desc">При каждой оплате — партнёру начисляется бонус за покупку (дни или деньги, в зависимости от режима). Бонусы начисляются при каждой покупке без ограничений.</div>
+        </div>
+      </div>
+
+      <h3>Защита от дублирования</h3>
+      <ul>
+        <li>Бонус за приглашение — максимум один на пару «партнёр + приглашённый»</li>
+        <li>Бонус за покупку — максимум один на платёж (система предотвращает повторное начисление)</li>
+        <li>Требование трафика (3 МБ) для invite-бонуса предотвращает злоупотребление ботами</li>
+      </ul>
+
+      <h3>Статистика в админке</h3>
+      <p>Раздел <strong>Referrals</strong> показывает:</p>
+      <ul>
+        <li>Список всех партнёров с количеством приглашённых</li>
+        <li>Общее количество начисленных бонусных дней (invite + purchase отдельно)</li>
+        <li>Конверсия: процент партнёров, чьи рефералы совершили покупку</li>
+        <li>Топ-5 партнёров по количеству приглашённых</li>
+        <li>Топ-5 партнёров по начисленным дням</li>
+        <li>Детальный список приглашённых для каждого партнёра</li>
+      </ul>
+
+      <h2 id="withdrawals">Выплаты</h2>
+      <p>В режиме <code>money</code> партнёры накапливают баланс в рублях и могут запросить вывод средств.</p>
+
+      <h3>Процесс вывода</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Партнёр запрашивает вывод</div>
+          <div class="step-desc">В Mini App: указывает сумму и реквизиты (номер карты или кошелька). Минимальная сумма — 500 ₽ (настраивается). Аккаунт должен быть старше 30 дней. Лимит — 1 запрос в 24 часа.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Система блокирует баланс</div>
+          <div class="step-desc">Сумма атомарно списывается с баланса партнёра. Создаётся заявка со статусом <span class="badge badge-gray">pending</span>.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Админ одобряет или отклоняет</div>
+          <div class="step-desc">При одобрении — система отправляет запрос в FreeKassa API для перевода средств. При отклонении — сумма возвращается на баланс партнёра.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">FreeKassa обрабатывает выплату</div>
+          <div class="step-desc">Статус обновляется на <span class="badge badge-green">completed</span> или <span class="badge badge-red">failed</span>. Пользователь получает уведомление через Telegram-бота.</div>
+        </div>
+      </div>
+
+      <h3>Статусы заявок на вывод</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Статус</th><th>Описание</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="badge badge-gray">pending</span></td><td>Ожидает рассмотрения администратором</td></tr>
+            <tr><td><span class="badge badge-blue">processing</span></td><td>Одобрена, отправлена в FreeKassa</td></tr>
+            <tr><td><span class="badge badge-green">completed</span></td><td>Деньги переведены</td></tr>
+            <tr><td><span class="badge badge-red">failed</span></td><td>Ошибка на стороне FreeKassa</td></tr>
+            <tr><td><span class="badge badge-orange">rejected</span></td><td>Отклонена администратором, баланс возвращён</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Настройки реферальной системы</h3>
+      <p>В админ-панели можно настроить следующие параметры реферальной программы:</p>
+      <ul>
+        <li><strong>Режим вознаграждения</strong> — бонусные дни или денежное вознаграждение (по умолчанию — дни)</li>
+        <li><strong>Количество дней за приглашение</strong> — сколько дней получает партнёр за каждого нового реферала (по умолчанию — 3)</li>
+        <li><strong>Количество дней за покупку</strong> — сколько дней начисляется за покупку приглашённого (настраивается по тарифам)</li>
+        <li><strong>Процент комиссии</strong> — какой процент от оплаты получает партнёр в денежном режиме (по умолчанию — 10%)</li>
+        <li><strong>Минимальная сумма вывода</strong> — минимальная сумма для запроса выплаты (по умолчанию — 500 ₽)</li>
+      </ul>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
